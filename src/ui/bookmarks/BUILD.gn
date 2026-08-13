@@ -1,0 +1,18 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("bookmarks_ui") {
+  sources = [
+    "BookmarksView.h",
+    "BookmarksView.cc",
+  ]
+
+  deps = [
+    "//veor/src/ui:theme",
+    "//veor/src/ui:painting",
+    "//veor/src/storage:storage_engine",
+    "//ui/views",
+    "//url",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

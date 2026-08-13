@@ -1,0 +1,22 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("devtools") {
+  sources = [
+    "DevToolsManager.h",
+    "DevToolsManager.cc",
+    "VeorDevToolsDelegate.h",
+    "VeorDevToolsDelegate.cc",
+    "VeorDevToolsPanels.h",
+    "VeorDevToolsPanels.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//content/public/browser",
+    "//veor/src/core:core",
+    "//veor/src:workspace",
+    "//veor/src/sync:sync",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

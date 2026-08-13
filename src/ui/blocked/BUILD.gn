@@ -1,0 +1,17 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("blocked_page") {
+  sources = [
+    "BlockedPageView.h",
+    "BlockedPageView.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//skia",
+    "//ui/views",
+    "//veor/src/ui:theme",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

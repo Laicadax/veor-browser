@@ -1,0 +1,180 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//build/config/compiler/compiler.gni")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Core Layer — Base types, logging, threading, config, memory
+# ─────────────────────────────────────────────────────────────────────────────
+
+source_set("base") {
+  sources = [
+    "base/VeorId.h",
+    "base/VeorId.cc",
+    "base/VeorResult.h",
+    "base/VeorResult.cc",
+  ]
+
+  deps = [
+    "//base",
+  ]
+
+  public_configs = [ ":veor_core_public" ]
+}
+
+source_set("logging") {
+  sources = [
+    "logging/VeorLogger.h",
+    "logging/VeorLogger.cc",
+  ]
+
+  deps = [
+    ":base",
+    "//base",
+    "//base",
+  ]
+
+  public_configs = [ ":veor_core_public" ]
+}
+
+source_set("threading") {
+  sources = [
+    "threading/ITaskRunner.h",
+    "threading/TaskRunnerImpl.h",
+    "threading/TaskRunnerImpl.cc",
+    "threading/TaskRunnerFactory.h",
+    "threading/TaskRunnerFactory.cc",
+  ]
+
+  deps = [
+    ":base",
+    "//base",
+    "//base",
+    "//base",
+  ]
+
+  public_configs = [ ":veor_core_public" ]
+}
+
+source_set("config") {
+  sources = [
+    "config/IConfigProvider.h",
+    "config/ConfigProviderImpl.h",
+    "config/ConfigProviderImpl.cc",
+  ]
+
+  deps = [
+    ":base",
+    ":logging",
+    ":threading",
+    "//base",
+    "//base",
+  ]
+
+  public_configs = [ ":veor_core_public" ]
+}
+
+source_set("memory") {
+  sources = [
+    "memory/IMemoryTracker.h",
+    "memory/MemoryTrackerImpl.h",
+    "memory/MemoryTrackerImpl.cc",
+  ]
+
+  deps = [
+    ":base",
+    ":logging",
+    "//base",
+  ]
+
+  public_configs = [ ":veor_core_public" ]
+}
+
+source_set("crash") {
+  sources = [
+    "crash/CrashRecovery.h",
+    "crash/CrashRecovery.cc",
+  ]
+
+  deps = [
+    ":base",
+    ":logging",
+    "//base",
+    "//base",
+    "//base",
+  ]
+
+  public_configs = [ ":veor_core_public" ]
+}
+
+# Core initialization (ties everything together)
+source_set("core") {
+  sources = [
+    "CoreInit.h",
+    "CoreInit.cc",
+  ]
+
+  deps = [
+    ":base",
+    ":logging",
+    ":threading",
+    ":config",
+    ":memory",
+    ":crash",
+    "//base",
+    "//base",
+    "//base",
+  ]
+
+  public_configs = [ ":veor_core_public" ]
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Public include path
+# ─────────────────────────────────────────────────────────────────────────────
+
+config("veor_core_public") {
+  include_dirs = [ "//veor/src" ]
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Unit Tests
+# ─────────────────────────────────────────────────────────────────────────────
+
+source_set("test_support") {
+  testonly = true
+
+  sources = [
+    "test/VeorTestBase.h",
+    "test/VeorTestBase.cc",
+  ]
+
+  deps = [
+    ":core",
+    "//base",
+    "//base",
+    "//testing/gmock",
+    "//testing/gtest",
+  ]
+
+  public_configs = [ ":veor_core_public" ]
+}
+
+executable("core_unittests") {
+  testonly = true
+  sources = [
+    "base/VeorId_unittest.cc",
+    "base/VeorResult_unittest.cc",
+    "config/ConfigProviderImpl_unittest.cc",
+    "memory/MemoryTrackerImpl_unittest.cc",
+  ]
+
+  deps = [
+    ":core",
+    ":test_support",
+    "//base",
+    "//testing/gmock",
+    "//testing/gtest",
+  ]
+}

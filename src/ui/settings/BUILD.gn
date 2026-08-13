@@ -1,0 +1,19 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("settings_ui") {
+  sources = [
+    "ISettingsUI.h",
+    "SettingsView.h",
+    "SettingsView.cc",
+  ]
+
+  deps = [
+    "//veor/src/ui:theme",
+    "//veor/src/settings",
+    "//base",
+    "//skia",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

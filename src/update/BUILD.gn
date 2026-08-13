@@ -1,0 +1,16 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("update") {
+  sources = [
+    "UpdateChecker.h",
+    "UpdateChecker.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//net",
+    "//veor/src/core:core",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

@@ -1,0 +1,20 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("pdf_viewer") {
+  sources = [
+    "PdfContentView.h",
+    "PdfContentView.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//content/public/browser",
+    "//skia",
+    "//ui/views",
+    "//ui/views/controls/webview",
+    "//veor/src/core:core",
+    "//veor/src/ui:theme",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

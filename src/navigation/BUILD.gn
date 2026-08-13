@@ -1,0 +1,20 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("navigation") {
+  sources = [
+    "INavigationController.h",
+    "NavigationControllerImpl.h",
+    "NavigationControllerImpl.cc",
+    "VeorNavigationThrottle.h",
+    "VeorNavigationThrottle.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//content/public/browser",
+    "//veor/src/core:core",
+    "//veor/src/safe_browsing:safe_browsing",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

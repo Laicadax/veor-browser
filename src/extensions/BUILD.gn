@@ -1,0 +1,26 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("extensions") {
+  sources = [
+    "ExtensionAPI.h",
+    "IExtensionHost.h",
+    "ExtensionHost.h",
+    "ExtensionHost.cc",
+    "api/TabsAPI.h",
+    "api/TabsAPI.cc",
+    "api/BookmarksAPI.h",
+    "api/BookmarksAPI.cc",
+    "api/StorageAPI.h",
+    "api/StorageAPI.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//veor/src/core:core",
+    "//veor/src:tabs",
+    "//veor/src:bookmarks",
+    "//veor/src/settings",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

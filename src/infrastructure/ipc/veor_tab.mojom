@@ -1,0 +1,48 @@
+// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+module veor.mojom;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TabController — Browser Process -> Renderer Process
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface TabController {
+  // Navigation
+  NavigateToUrl(string url);
+  GoBack();
+  GoForward();
+  Reload(bool bypass_cache);
+  Stop();
+
+  // Zoom
+  SetZoomLevel(double level);
+
+  // Find in page
+  Find(string query, bool forward, bool case_sensitive);
+  StopFinding();
+
+  // Lifecycle
+  Suspend();
+  Resume();
+
+  // DevTools
+  AttachDevTools();
+  DetachDevTools();
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TabObserver — Renderer Process -> Browser Process
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface TabObserver {
+  OnTitleChanged(string title);
+  OnFaviconChanged(array<uint8> favicon_data);
+  OnLoadCommitted(string url);
+  OnLoadFinished(bool success, int32 http_status_code);
+  OnProgressChanged(double progress);
+  OnSecurityStateChanged(int32 security_state);
+  OnFindResult(int32 active_match, int32 matches_count);
+  OnRendererCrashed();
+};

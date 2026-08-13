@@ -1,0 +1,21 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("autofill") {
+  sources = [
+    "IAutofillStore.h",
+    "AutofillStoreImpl.h",
+    "AutofillStoreImpl.cc",
+    "AutofillManager.h",
+    "AutofillManager.cc",
+  ]
+
+  deps = [
+    "//veor/src/core:core",
+    "//veor/src/infrastructure:storage",
+    "//veor/src/infrastructure:crypto",
+    "//content/public/browser",
+    "//base",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

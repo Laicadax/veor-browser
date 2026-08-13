@@ -1,0 +1,21 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("storage_engine") {
+  sources = [
+    "SQLiteDatabase.h",
+    "SQLiteDatabase.cc",
+    "HistoryDatabase.h",
+    "HistoryDatabase.cc",
+    "BookmarkDatabase.h",
+    "BookmarkDatabase.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//sql",
+    "//url",
+    "//veor/src/core:core",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

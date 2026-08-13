@@ -1,0 +1,18 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("reader_mode") {
+  sources = [
+    "ReaderModeView.h",
+    "ReaderModeView.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//skia",
+    "//ui/views",
+    "//veor/src/core:core",
+    "//veor/src/ui:theme",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

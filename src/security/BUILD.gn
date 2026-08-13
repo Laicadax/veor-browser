@@ -1,0 +1,20 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("security") {
+  sources = [
+    "ISecurityManager.h",
+    "SecurityManager.h",
+    "SecurityManager.cc",
+    "PermissionPrompt.h",
+    "PermissionPrompt.cc",
+  ]
+
+  deps = [
+    "//veor/src/core:core",
+    "//veor/src/ui:theme",
+    "//veor/src/ui:painting",
+    "//url",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

@@ -1,0 +1,17 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("find") {
+  sources = [
+    "FindBarView.h",
+    "FindBarView.cc",
+  ]
+
+  deps = [
+    "//veor/src/ui:theme",
+    "//base",
+    "//skia",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

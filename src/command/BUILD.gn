@@ -1,0 +1,36 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("command") {
+  sources = [
+    "ICommandProvider.h",
+    "CommandPalette.h",
+    "CommandPalette.cc",
+  ]
+
+  deps = [
+    "//veor/src/core:core",
+    "//veor/src:workspace",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("command_providers") {
+  sources = [
+    "providers/TabCommandProvider.h",
+    "providers/TabCommandProvider.cc",
+    "providers/HistoryCommandProvider.h",
+    "providers/HistoryCommandProvider.cc",
+    "providers/SystemCommandProvider.h",
+    "providers/SystemCommandProvider.cc",
+  ]
+
+  deps = [
+    ":command",
+    "//veor/src:tabs",
+    "//veor/src:history",
+    "//veor/src/platform:platform",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

@@ -1,0 +1,19 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("platform") {
+  sources = [
+    "IDefaultBrowserRegistrar.h",
+    "DefaultBrowserRegistrarFactory.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//veor/src/core:core",
+  ]
+
+  if (is_win) {
+    deps += [ "//veor/src/platform/windows:windows_platform" ]
+  }
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

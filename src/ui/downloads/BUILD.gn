@@ -1,0 +1,18 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("downloads_ui") {
+  sources = [
+    "DownloadsView.h",
+    "DownloadsView.cc",
+  ]
+
+  deps = [
+    "//veor/src/ui:theme",
+    "//veor/src/downloads",
+    "//base",
+    "//skia",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

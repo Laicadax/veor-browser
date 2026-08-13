@@ -1,0 +1,14 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("animation") {
+  sources = [
+    "AnimationEngine.h",
+    "AnimationEngine.cc",
+  ]
+
+  deps = [
+    "//veor/src/core:core",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

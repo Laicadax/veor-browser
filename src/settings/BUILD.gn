@@ -1,0 +1,20 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("settings") {
+  sources = [
+    "ISettingsProvider.h",
+    "SettingsProviderImpl.h",
+    "SettingsProviderImpl.cc",
+    "SettingsProviderStub.h",
+    "SettingsSchema.h",
+    "SettingsSchema.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//veor/src/core:core",
+    "//veor/src/infrastructure:storage",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

@@ -1,0 +1,16 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("menus") {
+  sources = [
+    "ContextMenus.h",
+    "ContextMenus.cc",
+  ]
+
+  deps = [
+    "//veor/src/ui:theme",
+    "//veor/src/ui:painting",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}

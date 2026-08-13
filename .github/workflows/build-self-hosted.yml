@@ -1,0 +1,163 @@
+# VEOR Browser — Self-Hosted CI/CD Build
+# Recommended: Uses your own runner (Azure VM, dedicated server, etc.)
+# No time limits, no disk limits, full control.
+
+name: Build VEOR (Self-Hosted)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        required: true
+        default: 'release'
+        type: choice
+        options:
+          - release
+          - debug
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    timeout-minutes: 720  # 12 hours — enough for full Chromium + VEOR
+
+    steps:
+      - name: Checkout VEOR
+        uses: actions/checkout@v4
+        with:
+          path: veor-checkout
+
+      - name: Setup Environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git curl python3 python3-pip python3-venv \
+            build-essential clang lld ninja-build cmake pkg-config \
+            libnss3-dev libdbus-1-dev libatk1.0-dev \
+            libgtk-3-dev libgdk-pixbuf2.0-dev libpango1.0-dev \
+            libcairo2-dev libx11-dev libxcomposite-dev \
+            libxdamage-dev libxext-dev libxfixes-dev \
+            libxrandr-dev libxtst-dev libxss-dev \
+            libpciaccess-dev libxt-dev libgconf-2-4 \
+            libasound2-dev libpulse-dev libdrm-dev \
+            libgbm-dev libcurl4-openssl-dev libelf-dev \
+            libgl1-mesa-dev libgles2-mesa-dev libvulkan-dev \
+            libva-dev libvdpau-dev libwebp-dev libjpeg-dev \
+            libpng-dev libtiff-dev libxml2-dev libxslt1-dev \
+            libsqlite3-dev libffi-dev liblzma-dev libbz2-dev \
+            zlib1g-dev libncurses5-dev libreadline-dev \
+            libedit-dev libexpat1-dev uuid-dev \
+            libjsoncpp-dev libre2-dev libminizip-dev \
+            libhunspell-dev libopenjp2-7-dev libopus-dev \
+            libsnappy-dev libusb-1.0-0-dev
+
+      - name: Setup Swap
+        run: |
+          if [ ! -f /swapfile ]; then
+            sudo fallocate -l 8G /swapfile
+            sudo chmod 600 /swapfile
+            sudo mkswap /swapfile
+            sudo swapon /swapfile
+          fi
+          free -h
+
+      - name: Setup Depot Tools
+        run: |
+          if [ ! -d "$HOME/depot_tools" ]; then
+            cd ~
+            git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+          fi
+          echo "$HOME/depot_tools" >> $GITHUB_PATH
+          export PATH="$HOME/depot_tools:$PATH"
+          gclient --version || true
+
+      - name: Cache Chromium Source
+        uses: actions/cache@v4
+        id: chromium-cache
+        with:
+          path: ~/chromium
+          key: chromium-source-${{ runner.os }}-${{ hashFiles('veor-checkout/BUILD.gn') }}
+          restore-keys: |
+            chromium-source-${{ runner.os }}-
+
+      - name: Fetch Chromium
+        if: steps.chromium-cache.outputs.cache-hit != 'true'
+        run: |
+          export PATH="$HOME/depot_tools:$PATH"
+          mkdir -p ~/chromium
+          cd ~/chromium
+          fetch --nohooks chromium
+
+      - name: Sync Chromium
+        run: |
+          export PATH="$HOME/depot_tools:$PATH"
+          cd ~/chromium/src
+          gclient sync -D
+
+      - name: Install Chromium Build Deps
+        run: |
+          export PATH="$HOME/depot_tools:$PATH"
+          cd ~/chromium/src
+          ./build/install-build-deps.sh --no-prompt || true
+          ./build/linux/sysroot_scripts/install-sysroot.py --arch=amd64
+          gclient runhooks
+
+      - name: Copy VEOR into Chromium
+        run: |
+          rm -rf ~/chromium/src/veor
+          cp -r $GITHUB_WORKSPACE/veor-checkout ~/chromium/src/veor
+
+      - name: Configure GN
+        run: |
+          export PATH="$HOME/depot_tools:$PATH"
+          cd ~/chromium/src
+          mkdir -p out/veor
+          cat > out/veor/args.gn << 'EOF'
+          is_debug = false
+          is_component_build = false
+          symbol_level = 1
+          enable_nacl = false
+          treat_warnings_as_errors = false
+          use_safe_libcxx = true
+          use_mold = false
+          EOF
+          gn gen out/veor
+
+      - name: Build VEOR
+        run: |
+          export PATH="$HOME/depot_tools:$PATH"
+          cd ~/chromium/src
+          ninja -C out/veor veor_browser
+
+      - name: Package Binary
+        run: |
+          cd ~/chromium/src
+          mkdir -p veor-dist
+          cp out/veor/veor_browser veor-dist/
+          cp -r veor/src/ui/assets veor-dist/ 2>/dev/null || true
+          tar czf veor-browser-linux-amd64.tar.gz veor-dist
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: veor-browser-linux-amd64
+          path: ~/chromium/src/veor-browser-linux-amd64.tar.gz
+          retention-days: 30
+
+      - name: Create Release
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ~/chromium/src/veor-browser-linux-amd64.tar.gz
+          tag_name: build-${{ github.run_number }}
+          name: VEOR Browser Build ${{ github.run_number }}
+          body: |
+            Automated build of VEOR Browser
+            - Commit: ${{ github.sha }}
+            - Date: ${{ github.event.head_commit.timestamp }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

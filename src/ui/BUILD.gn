@@ -1,0 +1,212 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+
+source_set("theme") {
+  sources = [
+    "theme/IThemeProvider.h",
+    "theme/ThemeProviderImpl.h",
+    "theme/ThemeProviderImpl.cc",
+  ]
+
+  deps = [
+    "//skia",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("omnibox") {
+  sources = [
+    "omnibox/IOmnibox.h",
+    "omnibox/OmniboxView.h",
+    "omnibox/OmniboxView.cc",
+  ]
+
+  deps = [
+    ":theme",
+    "//base",
+    "//skia",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("palette") {
+  sources = [
+    "palette/ICommandPalette.h",
+    "palette/CommandPaletteView.h",
+    "palette/CommandPaletteView.cc",
+  ]
+
+  deps = [
+    ":theme",
+    "//base",
+    "//skia",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("ntp") {
+  sources = [
+    "ntp/INewTabPage.h",
+    "ntp/NewTabPageView.h",
+    "ntp/NewTabPageView.cc",
+  ]
+
+  deps = [
+    ":theme",
+    "//base",
+    "//skia",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("toast") {
+  sources = [
+    "toast/IToastService.h",
+    "toast/ToastServiceImpl.h",
+    "toast/ToastServiceImpl.cc",
+  ]
+
+  deps = [
+    ":theme",
+    "//base",
+    "//skia",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("settings_ui") {
+  sources = [
+    "settings/ISettingsUI.h",
+    "settings/SettingsView.h",
+    "settings/SettingsView.cc",
+  ]
+
+  deps = [
+    "//veor/src/ui:theme",
+    "//veor/src/settings",
+    "//base",
+    "//skia",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("painting") {
+  sources = [
+    "painting/VeorPainter.h",
+    "painting/VeorPainter.cc",
+  ]
+
+  deps = [
+    ":theme",
+    "//skia",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("shell") {
+  sources = [
+    "shell/ITitleBar.h",
+    "shell/TitleBar.h",
+    "shell/TitleBar.cc",
+    "shell/BrowserShell.h",
+    "shell/BrowserShell.cc",
+    "content/WebContentsView.h",
+    "content/WebContentsView.cc",
+  ]
+
+  deps = [
+    ":theme",
+    ":omnibox",
+    ":palette",
+    ":ntp",
+    ":toast",
+    ":painting",
+    ":components",
+    "//veor/src:workspace",
+    "//veor/src:tabs",
+    "//veor/src/command:command",
+    "//veor/src/command:command_providers",
+    "//veor/src/platform:platform",
+    "//veor/src/storage:storage_engine",
+    "//veor/src/ui/history:history_ui",
+    "//veor/src/ui/bookmarks:bookmarks_ui",
+    "//veor/src/ui/blocked:blocked_page",
+    "//veor/src/safe_browsing:safe_browsing",
+    "//veor/src/autofill",
+    "//veor/src/ui/find",
+    "//veor/src/ui/downloads:downloads_ui",
+    "//veor/src/ui/settings:settings_ui",
+    "//content/public/browser",
+    "//ui/views",
+    "//ui/views/controls/webview",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("components") {
+  sources = [
+    "components/TabStripView.h",
+    "components/TabStripView.cc",
+  ]
+
+  deps = [
+    "//veor/src/core:core",
+    "//veor/src:tabs",
+    "//veor/src:workspace",
+    ":theme",
+    ":painting",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("menus") {
+  sources = [
+    "menus/ContextMenus.h",
+    "menus/ContextMenus.cc",
+  ]
+
+  deps = [
+    ":theme",
+    ":painting",
+    "//ui/views",
+  ]
+
+  public_configs = [ "//veor/src/core:veor_core_public" ]
+}
+
+source_set("ui") {
+  deps = [
+    ":theme",
+    ":omnibox",
+    ":palette",
+    ":ntp",
+    ":toast",
+    ":settings_ui",
+    ":painting",
+    ":shell",
+    ":components",
+    ":menus",
+    "//veor/src/ui/compositor:compositor",
+    "//veor/src/ui/pdf:pdf_viewer",
+    "//veor/src/ui/reader:reader_mode",
+    "//veor/src/ui/history:history_ui",
+    "//veor/src/ui/bookmarks:bookmarks_ui",
+    "//veor/src/ui/blocked:blocked_page",
+    "//veor/src/ui/find",
+    "//veor/src/ui/downloads:downloads_ui",
+  ]
+}

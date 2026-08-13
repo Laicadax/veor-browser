@@ -1,0 +1,16 @@
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# VEOR Browser — Root Build File
+# ─────────────────────────────────────────────────────────────────────────────
+
+group("veor") {
+  deps = [
+    "//veor/src:veor_browser",
+    "//veor/src:application",
+    "//veor/src/core:core_unittests",
+    "//veor/src/infrastructure:infrastructure_unittests",
+  ]
+}

@@ -1,0 +1,26 @@
+// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+module veor.mojom;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ExtensionBridge — Bidirectional: Browser <-> Renderer
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface ExtensionBridge {
+  // Browser -> Renderer: Inject content script
+  InjectContentScript(string script_id, string js_code, array<string> css_files);
+
+  // Browser -> Renderer: Execute script in isolated world
+  ExecuteScript(string extension_id, string js_code) => (string result_json);
+
+  // Renderer -> Browser: API call from extension
+  CallApi(string api_name, string args_json) => (string result_json, bool success);
+
+  // Browser -> Renderer: Dispatch event to extension
+  DispatchEvent(string event_name, string args_json);
+
+  // Renderer -> Browser: Send message to background page
+  SendMessage(string extension_id, string message_json) => (string response_json);
+};
