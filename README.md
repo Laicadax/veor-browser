@@ -52,12 +52,15 @@ gn gen out/Default
 # 4. Build
 autoninja -C out/Default veor_browser
 
-# 5. Run (Safe Browsing API key is built-in, no configuration needed)
+# 5. Run
 ./out/Default/veor_browser
+```
 
-## Optional: Custom API Key
+## Safe Browsing API Key
 
-If you want to use your own Google Safe Browsing API key instead of the built-in one:
+No key ships with the browser. Without one, Safe Browsing runs in local-only
+mode (local hash database and cache, no remote lookups). To enable remote
+lookups, provide your own Google Safe Browsing API key:
 
 **Method A: config.json**
 ```bash
@@ -69,7 +72,6 @@ echo '{"safe_browsing_api_key": "your-key"}' > ~/.config/veor/Default/config.jso
 ```bash
 export VEOR_SAFE_BROWSING_API_KEY="your-key"
 ./out/Default/veor_browser
-```
 ```
 
 ## Features

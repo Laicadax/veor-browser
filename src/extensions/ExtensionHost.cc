@@ -37,9 +37,28 @@ void ExtensionHost::RegisterAPI(std::unique_ptr<ExtensionAPI> api) {
   apis_[api->GetNamespace()] = std::move(api);
 }
 
+void ExtensionHost::SetExtensionPermissions(
+    const std::string& extension_id,
+    const std::vector<std::string>& permissions) {
+  if (extension_id.empty())
+    return;
+  granted_permissions_[extension_id] =
+      std::set<std::string>(permissions.begin(), permissions.end());
+}
+
+void ExtensionHost::RevokeExtension(const std::string& extension_id) {
+  granted_permissions_.erase(extension_id);
+}
+
 Result<base::Value, std::string> ExtensionHost::HandleCall(
+    const std::string& extension_id,
     const std::string& namespace_and_method,
     const base::Value::List& args) {
+  if (extension_id.empty()) {
+    return Result<base::Value, std::string>::Err(
+        "API call from unidentified caller");
+  }
+
   size_t dot = namespace_and_method.find('.');
   if (dot == std::string::npos) {
     return Result<base::Value, std::string>::Err("Invalid API call format: " + namespace_and_method);
@@ -51,6 +70,15 @@ Result<base::Value, std::string> ExtensionHost::HandleCall(
   auto it = apis_.find(ns);
   if (it == apis_.end()) {
     return Result<base::Value, std::string>::Err("Unknown API namespace: " + ns);
+  }
+
+  auto granted = granted_permissions_.find(extension_id);
+  if (granted == granted_permissions_.end() ||
+      granted->second.find(ns) == granted->second.end()) {
+    VEOR_LOGW(LogCategory::kSecurity,
+              "Blocked chrome." + ns + " call from extension " + extension_id +
+                  ": permission not granted");
+    return Result<base::Value, std::string>::Err("Permission denied: " + ns);
   }
 
   return it->second->Invoke(method, args);

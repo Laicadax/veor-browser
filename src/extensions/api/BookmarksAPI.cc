@@ -4,6 +4,8 @@
 
 #include "extensions/api/BookmarksAPI.h"
 
+#include "core/base/UrlSecurity.h"
+
 namespace veor {
 
 BookmarksAPI::BookmarksAPI(IBookmarkStore* store) : store_(store) {}
@@ -29,8 +31,11 @@ Result<base::Value, std::string> BookmarksAPI::Create(const base::Value::List& a
   }
 
   if (const std::string* url = dict.FindString("url")) {
+    GURL target(*url);
+    if (!target.is_valid() || IsDangerousNavigationScheme(target))
+      return Err("bookmarks.create: disallowed URL");
     const std::string* title = dict.FindString("title");
-    auto result = store_->AddBookmark(GURL(*url), title ? *title : "", parent);
+    auto result = store_->AddBookmark(target, title ? *title : "", parent);
     if (result.IsOk()) {
       auto node = store_->GetNode(result.Value());
       if (node.IsOk()) return Ok(base::Value(NodeToDict(node.Value())));

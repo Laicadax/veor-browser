@@ -36,7 +36,8 @@ base::FilePath GetVeorProfilePath() {
 }
 
 // Load Safe Browsing API key from config.json in profile directory.
-// Priority: config file > environment variable > fallback.
+// Priority: config file > environment variable. Returns an empty string when
+// no key is configured, which puts Safe Browsing into local-only mode.
 std::string LoadApiKey(const base::FilePath& profile_path) {
   // 1. Try config.json
   base::FilePath config_path = profile_path.AppendASCII("config.json");
@@ -67,10 +68,10 @@ std::string LoadApiKey(const base::FilePath& profile_path) {
     return env_key;
   }
 
-  // 3. Built-in fallback — works out of the box, no user action required
-  VEOR_LOGI(LogCategory::kSecurity,
-            "SafeBrowsingService: using built-in API key");
-  return "AIzaSyAFyh4_3KcYWwZ74gbbmvjPLv0H42TgPKc";
+  VEOR_LOGW(LogCategory::kSecurity,
+            "SafeBrowsingService: no API key configured, running local-only "
+            "checks (set VEOR_SAFE_BROWSING_API_KEY or config.json)");
+  return std::string();
 }
 
 }  // namespace

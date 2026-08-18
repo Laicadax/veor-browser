@@ -108,16 +108,14 @@ constexpr char kFillScript[] =
     "    }"
     "  }"
     "  return false;"
-    "})('%s', '%s');";
+    "})(%s, %s);";
 
-std::string EscapeJsString(const std::string& s) {
+// Renders a string as a JavaScript literal. JSON string syntax is a subset of
+// JavaScript's, so this cannot break out of the literal.
+std::string ToJsLiteral(const std::string& s) {
   std::string out;
-  out.reserve(s.size());
-  for (char c : s) {
-    if (c == '\\' || c == '\'' || c == '"')
-      out.push_back('\\');
-    out.push_back(c);
-  }
+  if (!base::JSONWriter::Write(base::Value(s), &out))
+    return "\"\"";
   return out;
 }
 
@@ -213,10 +211,9 @@ void AutofillManager::FillCredentials(const std::string& username,
   if (!frame)
     return;
 
-  std::string script = base::StringPrintf(
-      kFillScript,
-      EscapeJsString(username).c_str(),
-      EscapeJsString(password).c_str());
+  std::string script = base::StringPrintf(kFillScript,
+                                          ToJsLiteral(username).c_str(),
+                                          ToJsLiteral(password).c_str());
 
   frame->ExecuteJavaScript(
       base::UTF8ToUTF16(script),
@@ -241,15 +238,19 @@ void AutofillManager::OnFormSubmitted(const std::string& result_json) {
   const auto& dict = parsed->GetDict();
   const std::string* username = dict.FindString("username");
   const std::string* password = dict.FindString("password");
-  const std::string* origin = dict.FindString("origin");
 
-  if (!username || !password || !origin)
+  if (!username || !password)
     return;
   if (password->empty())
     return;
 
+  // The origin reported by the page is not trusted: credentials are always
+  // attributed to the origin the browser has committed for this frame.
+  if (current_origin_.empty())
+    return;
+
   // Check if we already have this credential
-  auto existing = store_->GetPasswordsForOrigin(*origin);
+  auto existing = store_->GetPasswordsForOrigin(current_origin_);
   if (existing.IsOk()) {
     for (const auto& entry : existing.Unwrap()) {
       if (entry.username == *username && entry.password_encrypted == *password)
@@ -257,7 +258,7 @@ void AutofillManager::OnFormSubmitted(const std::string& result_json) {
     }
   }
 
-  PromptSavePassword(*origin, *username, *password);
+  PromptSavePassword(current_origin_, *username, *password);
 }
 
 }  // namespace veor

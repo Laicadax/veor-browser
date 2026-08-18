@@ -4,6 +4,8 @@
 
 #include "content/VeorRendererClient.h"
 
+#include "base/json/json_writer.h"
+#include "base/values.h"
 #include "content/public/renderer/render_frame.h"
 #include "content/public/renderer/render_view.h"
 #include "core/logging/VeorLogger.h"
@@ -98,11 +100,14 @@ void VeorRendererClient::RenderFrameCreated(content::RenderFrame* render_frame) 
   if (!web_frame)
     return;
 
-  // Inject reader mode stylesheet via DOM
+  // Inject reader mode stylesheet via DOM. The stylesheet is passed as a
+  // JSON-encoded string literal so it cannot terminate the surrounding script.
+  std::string css_literal;
+  if (!base::JSONWriter::Write(base::Value(kReaderModeCSS), &css_literal))
+    return;
   blink::WebScriptSource css_script(blink::WebString::FromUTF8(
-      std::string("(function(){var s=document.createElement('style');"
-                  "s.textContent=") + std::string(kReaderModeCSS) +
-      ";document.head.appendChild(s);})();"));
+      "(function(){var s=document.createElement('style');s.textContent=" +
+      css_literal + ";document.head.appendChild(s);})();"));
   web_frame->ExecuteScript(css_script);
 
   // Inject reader mode JavaScript bridge

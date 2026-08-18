@@ -4,6 +4,7 @@
 
 #include "extensions/api/TabsAPI.h"
 
+#include "core/base/UrlSecurity.h"
 #include "core/logging/VeorLogger.h"
 
 namespace veor {
@@ -26,8 +27,11 @@ Result<base::Value, std::string> TabsAPI::Create(const base::Value::List& args) 
   bool active = true;
   if (!args.empty() && args[0].is_dict()) {
     const auto& dict = args[0].GetDict();
-    if (const std::string* url_str = dict.FindString("url"))
+    if (const std::string* url_str = dict.FindString("url")) {
       url = GURL(*url_str);
+      if (!IsWebNavigableUrl(url))
+        return Err("tabs.create: disallowed URL");
+    }
     if (std::optional<bool> a = dict.FindBool("active"))
       active = *a;
   }
@@ -61,7 +65,10 @@ Result<base::Value, std::string> TabsAPI::Update(const base::Value::List& args) 
   TabId id(tab_id);
 
   if (const std::string* url = props.FindString("url")) {
-    tab_manager_->NavigateTab(id, GURL(*url));
+    GURL target(*url);
+    if (!IsWebNavigableUrl(target))
+      return Err("tabs.update: disallowed URL");
+    tab_manager_->NavigateTab(id, target);
   }
   if (std::optional<bool> active = props.FindBool("active")) {
     if (*active) tab_manager_->ActivateTab(id);

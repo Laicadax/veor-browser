@@ -4,6 +4,7 @@
 #include "base/command_line.h"
 #include "base/strings/escape.h"
 #include "content/public/browser/browser_context.h"
+#include "core/base/UrlSecurity.h"
 #include "ui/base/accelerators/accelerator.h"
 #include "command/providers/SystemCommandProvider.h"
 #include "devtools/DevToolsManager.h"
@@ -590,6 +591,13 @@ void BrowserShell::OnForwardPressed() {
 
 void BrowserShell::OnOmniboxCommit(const std::string& text) {
   GURL url(text);
+  // Text typed or pasted into the omnibox must never execute script in, or
+  // borrow the origin of, the page currently loaded in the tab.
+  if (IsDangerousNavigationScheme(url)) {
+    VEOR_LOGW(LogCategory::kSecurity,
+              "Omnibox rejected " + url.scheme() + ": URL");
+    url = GURL();
+  }
   if (!url.is_valid()) {
     bool looks_like_url = text.find('.') != std::string::npos &&
                           text.find(' ') == std::string::npos &&

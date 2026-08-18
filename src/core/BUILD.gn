@@ -14,10 +14,12 @@ source_set("base") {
     "base/VeorId.cc",
     "base/VeorResult.h",
     "base/VeorResult.cc",
+    "base/UrlSecurity.h",
   ]
 
   deps = [
     "//base",
+    "//url",
   ]
 
   public_configs = [ ":veor_core_public" ]
