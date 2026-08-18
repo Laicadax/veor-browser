@@ -2,6 +2,7 @@
 #pragma once
 
 #include "ui/base/metadata/metadata_header_macros.h"
+#include "base/memory/raw_ptr.h"
 #include "ui/ntp/INewTabPage.h"
 #include "ui/views/view.h"
 
@@ -24,7 +25,7 @@ class NewTabPageView : public views::View, public INewTabPage {
   void OnPaint(gfx::Canvas* canvas) override;
 
  private:
-  IThemeProvider* theme_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
 
   SEQUENCE_CHECKER(sequence_checker_);
 };

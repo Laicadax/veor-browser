@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "url/gurl.h"
 #include <vector>
 
 #include "base/time/time.h"

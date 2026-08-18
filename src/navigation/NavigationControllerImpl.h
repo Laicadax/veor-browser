@@ -2,6 +2,7 @@
 #pragma once
 
 #include <vector>
+#include "url/gurl.h"
 
 #include "navigation/INavigationController.h"
 

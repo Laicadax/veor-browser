@@ -1,4 +1,4 @@
-// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+﻿// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -7,12 +7,17 @@
 #include <string>
 
 #include "base/files/file_path.h"
+#include "platform/IDefaultBrowserRegistrar.h"
+
+#include "platform/IDefaultBrowserRegistrar.h"
+
+#include "platform/IDefaultBrowserRegistrar.h"
 
 namespace veor {
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // DefaultBrowserRegistrar
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Registers VEOR as the default browser on Windows through registry
 // manipulation and COM APIs.
 //
@@ -21,7 +26,7 @@ namespace veor {
 //
 // Thread safety: [UI Thread] for all methods.
 
-class DefaultBrowserRegistrar {
+class DefaultBrowserRegistrar : public IDefaultBrowserRegistrar {
  public:
   explicit DefaultBrowserRegistrar(const base::FilePath& executable_path);
   ~DefaultBrowserRegistrar() = default;

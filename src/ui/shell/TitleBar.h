@@ -2,6 +2,7 @@
 #pragma once
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 #include <string>
 #include <vector>
 
@@ -45,16 +46,16 @@ class TitleBar : public views::View, public ITitleBar {
 
  private:
   enum class HoveredButton { kNone, kBack, kForward, kPalette, kClose };
-  IThemeProvider* theme_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
 
-  views::Label* brand_label_ = nullptr;
-  views::Label* workspace_label_ = nullptr;
-  OmniboxView* omnibox_ = nullptr;
+  raw_ptr<views::Label> brand_label_= nullptr;
+  raw_ptr<views::Label> workspace_label_= nullptr;
+  raw_ptr<OmniboxView> omnibox_= nullptr;
 
-  views::View* back_button_ = nullptr;
-  views::View* forward_button_ = nullptr;
-  views::View* palette_button_ = nullptr;
-  views::View* close_button_ = nullptr;
+  raw_ptr<views::View> back_button_= nullptr;
+  raw_ptr<views::View> forward_button_= nullptr;
+  raw_ptr<views::View> palette_button_= nullptr;
+  raw_ptr<views::View> close_button_= nullptr;
 
   bool can_go_back_ = false;
   bool can_go_forward_ = false;

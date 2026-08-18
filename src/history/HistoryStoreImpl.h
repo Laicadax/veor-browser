@@ -5,7 +5,9 @@
 #pragma once
 
 #include "history/IHistoryStore.h"
-
+#include "base/time/time.h"
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"\n
 #include <memory>
 
 namespace veor {
@@ -44,7 +46,7 @@ class HistoryStoreImpl : public IHistoryStore {
  private:
   Result<void, std::string> EnsureSchema();
 
-  IStorageEngine* storage_;
+  raw_ptr<IStorageEngine> storage_;
   bool schema_initialized_ = false;
 };
 

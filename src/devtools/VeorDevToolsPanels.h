@@ -5,6 +5,7 @@
 #pragma once
 
 #include <string>
+#include "base/memory/raw_ptr.h"
 
 #include "base/memory/weak_ptr.h"
 #include "content/public/browser/devtools_agent_host.h"
@@ -48,9 +49,9 @@ class VeorDevToolsPanels {
   std::string BuildWorkspacePayload();
   std::string BuildSyncPayload();
 
-  MemoryTracker* memory_;
-  WorkspaceManager* workspaces_;
-  ISyncEngine* sync_;
+  raw_ptr<MemoryTracker> memory_;
+  raw_ptr<WorkspaceManager> workspaces_;
+  raw_ptr<ISyncEngine> sync_;
 
   base::WeakPtrFactory<VeorDevToolsPanels> weak_factory_{this};
 };

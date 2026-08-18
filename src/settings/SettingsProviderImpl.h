@@ -1,4 +1,4 @@
-// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+﻿// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -11,13 +11,15 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "base/memory/raw_ptr.h"
+#include "core/config/IConfigProvider.h"
+
 namespace veor {
 
-class IConfigProvider;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // SettingsProviderImpl
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Schema-driven settings backed by IConfigProvider for persistence.
 //
 // Thread safety: [UI Thread] for reads and writes.
@@ -66,7 +68,7 @@ class SettingsProviderImpl : public ISettingsProvider {
   SettingValue ConfigToSettingValue(const ConfigValue& value) const;
   ConfigValue SettingToConfigValue(const SettingValue& value) const;
 
-  IConfigProvider* config_;
+  raw_ptr<IConfigProvider> config_;
 
   mutable std::mutex observers_mutex_;
   std::unordered_map<std::string, std::unordered_set<SettingsObserver*>> key_observers_;

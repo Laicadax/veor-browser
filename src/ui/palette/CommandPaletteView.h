@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include "base/memory/raw_ptr.h"
 #include <vector>
 
 #include "ui/base/metadata/metadata_header_macros.h"
@@ -42,7 +43,7 @@ class CommandPaletteView : public views::View, public ICommandPalette {
   void DrawInput(gfx::Canvas* canvas);
   void DrawResults(gfx::Canvas* canvas);
 
-  IThemeProvider* theme_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
   bool visible_ = false;
   std::string query_;
   std::vector<PaletteItem> items_;

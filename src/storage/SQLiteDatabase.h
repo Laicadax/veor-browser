@@ -5,6 +5,7 @@
 #pragma once
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 #include <string>
 
 #include "base/files/file_path.h"
@@ -64,7 +65,7 @@ class SQLTransaction {
   bool Commit();
 
  private:
-  SQLiteDatabase* db_;
+  raw_ptr<SQLiteDatabase> db_;
   bool committed_ = false;
 };
 

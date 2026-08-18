@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "tabs/TabManager.h"
+#include "url/gurl.h"
 
 #include <algorithm>
 

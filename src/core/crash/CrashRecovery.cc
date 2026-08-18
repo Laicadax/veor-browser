@@ -3,6 +3,8 @@
 // found in the LICENSE file.
 
 #include "core/crash/CrashRecovery.h"
+#include "workspace/Workspace.h"
+#include "url/gurl.h"
 
 #include <fstream>
 

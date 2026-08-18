@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "safe_browsing/HashDatabase.h"
+#include "base/files/file_path.h"
 
 #include "base/strings/string_util.h"
 #include "base/time/time.h"

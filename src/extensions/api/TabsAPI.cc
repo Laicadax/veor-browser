@@ -3,6 +3,9 @@
 // found in the LICENSE file.
 
 #include "extensions/api/TabsAPI.h"
+#include "tabs/TabManager.h"
+#include "tabs/ITabManager.h"
+#include "url/gurl.h"
 
 #include "core/logging/VeorLogger.h"
 
@@ -34,9 +37,9 @@ Result<base::Value, std::string> TabsAPI::Create(const base::Value::List& args) 
   auto result = tab_manager_->CreateTab(url);
   if (result.IsErr())
     return Err(result.UnwrapErr());
-  auto info = tab_manager_->GetTabInfo(result.Value());
+  auto info = tab_manager_->GetTabInfo(result.Unwrap());
   if (info.IsOk())
-    return Ok(base::Value(TabInfoToDict(info.Value())));
+    return Ok(base::Value(TabInfoToDict(info.Unwrap())));
   return Err("Tab created but info unavailable");
 }
 
@@ -72,7 +75,7 @@ Result<base::Value, std::string> TabsAPI::Update(const base::Value::List& args) 
 
   auto info = tab_manager_->GetTabInfo(id);
   if (info.IsOk())
-    return Ok(base::Value(TabInfoToDict(info.Value())));
+    return Ok(base::Value(TabInfoToDict(info.Unwrap())));
   return Err("Tab not found");
 }
 
@@ -88,7 +91,7 @@ Result<base::Value, std::string> TabsAPI::Get(const base::Value::List& args) {
     return Err("tabs.get requires tabId");
   auto info = tab_manager_->GetTabInfo(TabId(args[0].GetInt()));
   if (info.IsOk())
-    return Ok(base::Value(TabInfoToDict(info.Value())));
+    return Ok(base::Value(TabInfoToDict(info.Unwrap())));
   return Err("Tab not found");
 }
 

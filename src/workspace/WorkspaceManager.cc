@@ -3,6 +3,9 @@
 // found in the LICENSE file.
 
 #include "workspace/WorkspaceManager.h"
+#include "tabs/TabManager.h"
+#include "workspace/Workspace.h"
+#include "base/strings/utf_string_conversions.h"
 
 #include "base/files/file_path.h"
 #include "base/strings/string_number_conversions.h"
@@ -27,8 +30,7 @@ Result<WorkspaceId, std::string> WorkspaceManager::CreateWorkspace(
   // Initialize per-workspace storage
   if (!persistence_base_path_.empty()) {
     base::FilePath ws_db = persistence_base_path_.Append(
-        FILE_PATH_LITERAL("workspace_") +
-        base::NumberToString(id.value()) +
+        base::UTF8ToWide("workspace_" + base::NumberToString(id.Unwrap())) +
         FILE_PATH_LITERAL(".db"));
     ws->InitializeStorage(ws_db);
   }
@@ -44,7 +46,7 @@ Result<WorkspaceId, std::string> WorkspaceManager::CreateWorkspace(
   }
 
   VEOR_LOGI(LogCategory::kWorkspace,
-            "Created workspace " + std::to_string(id.value()) + ": " +
+            "Created workspace " + std::to_string(id.Unwrap()) + ": " +
                 options.name);
   return Result<WorkspaceId, std::string>::Ok(id);
 }
@@ -77,7 +79,7 @@ Result<void, std::string> WorkspaceManager::DeleteWorkspace(WorkspaceId id) {
   }
 
   VEOR_LOGI(LogCategory::kWorkspace,
-            "Deleted workspace " + std::to_string(id.value()));
+            "Deleted workspace " + std::to_string(id.Unwrap()));
   return Result<void, std::string>::Ok();
 }
 
@@ -118,7 +120,7 @@ Result<void, std::string> WorkspaceManager::ActivateWorkspace(WorkspaceId id) {
   }
 
   VEOR_LOGI(LogCategory::kWorkspace,
-            "Activated workspace " + std::to_string(id.value()));
+            "Activated workspace " + std::to_string(id.Unwrap()));
   return Result<void, std::string>::Ok();
 }
 
@@ -160,7 +162,7 @@ Result<void, std::string> WorkspaceManager::MoveTabToWorkspace(
     auto result = tm->GetTabInfo(tab);
     if (result.IsOk()) {
       source_ws = ws.get();
-      tab_info = result.Value();
+      tab_info = result.Unwrap();
       break;
     }
   }
@@ -181,10 +183,10 @@ Result<void, std::string> WorkspaceManager::MoveTabToWorkspace(
   auto* tgt_tm = target_ws->GetTabManager();
   auto new_tab = tgt_tm->CreateTab(tab_info.url);
   if (new_tab.IsOk()) {
-    tgt_tm->SetTabTitle(new_tab.Value(), tab_info.title);
+    tgt_tm->SetTabTitle(new_tab.Unwrap(), tab_info.title);
     VEOR_LOGI(LogCategory::kWorkspace,
-              "Moved tab " + std::to_string(tab.value()) +
-                  " to workspace " + std::to_string(target.value()));
+              "Moved tab " + std::to_string(tab.Unwrap()) +
+                  " to workspace " + std::to_string(target.Unwrap()));
   }
 
   return Result<void, std::string>::Ok();
@@ -204,7 +206,7 @@ Result<void, std::string> WorkspaceManager::PersistWorkspaces() {
       auto result = persistence_->SaveWorkspace(*session);
       if (result.IsErr()) {
         VEOR_LOGW(LogCategory::kWorkspace,
-                  "Failed to persist workspace " + std::to_string(id.value()) +
+                  "Failed to persist workspace " + std::to_string(id.Unwrap()) +
                       ": " + result.UnwrapErr());
       }
     }
@@ -224,17 +226,17 @@ Result<void, std::string> WorkspaceManager::LoadWorkspaces() {
   }
 
   auto sessions = persistence_->LoadAllWorkspaces();
-  if (sessions.IsErr() || sessions.Value().empty()) {
+  if (sessions.IsErr() || sessions.Unwrap().empty()) {
     if (workspaces_.empty()) {
       CreateWorkspace({"Default", true, false});
     }
     return Result<void, std::string>::Ok();
   }
 
-  for (const auto& session : sessions.Value()) {
+  for (const auto& session : sessions.Unwrap()) {
     auto result = CreateWorkspace({session.GetName(), false, false});
     if (result.IsOk()) {
-      auto* ws = static_cast<Workspace*>(GetWorkspace(result.Value()));
+      auto* ws = static_cast<Workspace*>(GetWorkspace(result.Unwrap()));
       if (ws) {
         *ws->GetSession() = session;
         ws->LoadState();
@@ -252,7 +254,7 @@ Result<void, std::string> WorkspaceManager::InitializePersistence(
   auto result = persistence_->Open(path);
   if (result.IsOk()) {
     VEOR_LOGI(LogCategory::kWorkspace,
-              "Persistence initialized at " + path.value());
+              "Persistence initialized at " + base::WideToUTF8(path.Unwrap()));
   } else {
     VEOR_LOGW(LogCategory::kWorkspace,
               "Failed to initialize persistence: " + result.UnwrapErr());

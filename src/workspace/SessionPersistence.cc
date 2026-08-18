@@ -1,3 +1,8 @@
+#include "base/strings/utf_string_conversions.h"
+#include "workspace/Workspace.h"
+#include "base/time/time.h"
+#include "base/files/file_path.h"
+#include "url/gurl.h"
 // Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
@@ -38,7 +43,7 @@ Result<void, std::string> SessionPersistence::Open(const base::FilePath& path) {
   }
 
   VEOR_LOGI(LogCategory::kWorkspace,
-            "SessionPersistence opened: " + path.value());
+            "SessionPersistence opened: " + base::WideToUTF8(path.Unwrap()));
   return Result<void, std::string>::Ok();
 }
 
@@ -181,7 +186,7 @@ SessionPersistence::LoadAllWorkspaces() {
       return Result<std::vector<WorkspaceSession>, std::string>::Err(
           step_result.UnwrapErr().ToString());
     }
-    if (!step_result.Value()) {
+    if (!step_result.Unwrap()) {
       break;
     }
 
@@ -208,7 +213,7 @@ SessionPersistence::LoadAllWorkspaces() {
         return Result<std::vector<WorkspaceSession>, std::string>::Err(
             tab_step.UnwrapErr().ToString());
       }
-      if (!tab_step.Value()) {
+      if (!tab_step.Unwrap()) {
         break;
       }
 
@@ -233,7 +238,7 @@ Result<void, std::string> SessionPersistence::DeleteWorkspace(WorkspaceId id) {
   }
 
   auto result = engine_->Execute("DELETE FROM workspaces WHERE id = ?",
-                                  {std::to_string(id.value())});
+                                  {std::to_string(id.Unwrap())});
   if (result.IsErr()) {
     return Result<void, std::string>::Err(result.UnwrapErr().ToString());
   }

@@ -3,6 +3,8 @@
 // found in the LICENSE file.
 
 #include "storage/BookmarkDatabase.h"
+#include "base/files/file_path.h"
+#include "url/gurl.h"
 
 #include "base/time/time.h"
 #include "sql/statement.h"

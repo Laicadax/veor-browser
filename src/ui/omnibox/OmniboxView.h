@@ -2,6 +2,7 @@
 #pragma once
 
 #include "ui/base/metadata/metadata_header_macros.h"
+#include "base/memory/raw_ptr.h"
 #include "ui/omnibox/IOmnibox.h"
 #include "ui/views/controls/textfield/textfield.h"
 
@@ -32,7 +33,7 @@ class OmniboxView : public views::Textfield, public IOmnibox {
                       const ui::KeyEvent& key_event) override;
 
  private:
-  IThemeProvider* theme_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
   bool secure_ = false;
   bool mixed_ = false;
   bool loading_ = false;

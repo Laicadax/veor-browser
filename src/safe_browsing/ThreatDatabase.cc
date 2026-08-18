@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "safe_browsing/ThreatDatabase.h"
+#include "base/files/file_path.h"
 
 #include "base/time/time.h"
 #include "sql/statement.h"

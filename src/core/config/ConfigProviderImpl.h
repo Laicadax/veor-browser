@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #pragma once
+class Workspace;
 
 #include "core/config/IConfigProvider.h"
 #include "core/threading/ITaskRunner.h"

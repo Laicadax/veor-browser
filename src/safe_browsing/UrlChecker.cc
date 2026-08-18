@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "safe_browsing/UrlChecker.h"
+#include "url/gurl.h"
 
 #include "base/strings/string_util.h"
 #include "crypto/sha2.h"

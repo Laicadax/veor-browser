@@ -5,6 +5,7 @@
 #pragma once
 
 #include "infrastructure/platform/IPlatformService.h"
+#include "base/files/file_path.h"
 
 namespace veor {
 

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 #include <string>
 
 #include "ui/views/controls/label.h"
@@ -44,14 +45,14 @@ class ReaderModeView : public views::View {
  private:
   void BuildChrome();
 
-  IThemeProvider* theme_;
+  raw_ptr<IThemeProvider> theme_;
 
-  views::View* header_ = nullptr;
-  views::Label* title_label_ = nullptr;
-  views::Label* byline_label_ = nullptr;
-  views::ScrollView* scroll_view_ = nullptr;
-  views::View* content_container_ = nullptr;
-  views::Label* content_label_ = nullptr;
+  raw_ptr<views::View> header_= nullptr;
+  raw_ptr<views::Label> title_label_= nullptr;
+  raw_ptr<views::Label> byline_label_= nullptr;
+  raw_ptr<views::ScrollView> scroll_view_= nullptr;
+  raw_ptr<views::View> content_container_= nullptr;
+  raw_ptr<views::Label> content_label_= nullptr;
 };
 
 }  // namespace veor

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "platform/windows/DefaultBrowserRegistrar.h"
+#include "base/files/file_path.h"
 
 #include <windows.h>
 #include <shlobj.h>

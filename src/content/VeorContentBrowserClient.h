@@ -5,6 +5,7 @@
 #pragma once
 
 #include <memory>
+#include "base/files/file_path.h"
 
 #include "content/public/browser/content_browser_client.h"
 

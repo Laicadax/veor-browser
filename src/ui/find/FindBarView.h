@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include "base/memory/raw_ptr.h"
 
 #include "base/functional/callback.h"
 #include "ui/base/metadata/metadata_header_macros.h"
@@ -53,12 +54,12 @@ class FindBarView : public views::View {
   void OnNextClicked();
   void OnCloseClicked();
 
-  IThemeProvider* theme_;
+  raw_ptr<IThemeProvider> theme_;
 
-  views::View* search_box_ = nullptr;
-  views::View* prev_button_ = nullptr;
-  views::View* next_button_ = nullptr;
-  views::View* close_button_ = nullptr;
+  raw_ptr<views::View> search_box_= nullptr;
+  raw_ptr<views::View> prev_button_= nullptr;
+  raw_ptr<views::View> next_button_= nullptr;
+  raw_ptr<views::View> close_button_= nullptr;
 
   std::u16string match_text_;
   std::u16string search_text_;

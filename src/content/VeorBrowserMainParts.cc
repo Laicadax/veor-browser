@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "content/VeorBrowserMainParts.h"
+#include "workspace/Workspace.h"
 
 #include "base/files/file_path.h"
 #include "content/public/browser/browser_context.h"

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "history/HistoryStoreImpl.h"
+#include "url/gurl.h"
 
 #include "base/time/time.h"
 #include "core/logging/VeorLogger.h"
@@ -79,8 +80,7 @@ Result<void, std::string> HistoryStoreImpl::AddVisit(const GURL& url,
     return schema_result;
 
   // Check if URL exists within the same day
-  base::Time day_start = visit_time - base::Time::FromDeltaSinceWindowsEpoch(
-      base::Seconds(visit_time.ToDeltaSinceWindowsEpoch().InSeconds() % 86400));
+  base::TimeDelta since_epoch = visit_time.ToDeltaSinceWindowsEpoch();\n  base::TimeDelta time_within_day = base::Seconds(since_epoch.InSeconds() % 86400);\n  base::Time day_start = visit_time - time_within_day;
   base::Time day_end = day_start + base::Days(1);
 
   auto check_stmt = storage_->Prepare(
@@ -231,7 +231,7 @@ Result<void, std::string> HistoryStoreImpl::DeleteEntry(HistoryEntryId id) {
 
   auto result = storage_->Execute(
       "DELETE FROM history WHERE id = ?",
-      {std::to_string(id.value())});
+      {std::to_string(id.Unwrap())});
   if (result.IsErr()) {
     return Result<void, std::string>::Err(result.UnwrapErr().ToString());
   }

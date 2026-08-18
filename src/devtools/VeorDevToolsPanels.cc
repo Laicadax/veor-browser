@@ -3,6 +3,8 @@
 // found in the LICENSE file.
 
 #include "devtools/VeorDevToolsPanels.h"
+#include "workspace/Workspace.h"
+#include "base/time/time.h"
 
 #include "base/json/json_writer.h"
 #include "base/values.h"

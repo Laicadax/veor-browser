@@ -5,8 +5,11 @@
 #pragma once
 
 #include "bookmarks/IBookmarkStore.h"
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 
 namespace veor {
 
@@ -55,7 +58,7 @@ class BookmarkStoreImpl : public IBookmarkStore {
   Result<void, std::string> EnsureSchema();
   BookmarkNode RowToNode(class IStatement* stmt) const;
 
-  IStorageEngine* storage_;
+  raw_ptr<IStorageEngine> storage_;
   bool schema_initialized_ = false;
 };
 

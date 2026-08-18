@@ -2,6 +2,7 @@
 #pragma once
 
 #include <cstdint>
+#include "base/memory/raw_ptr.h"
 #include <memory>
 #include <vector>
 
@@ -44,8 +45,8 @@ class ToastServiceImpl : public IToastService {
   void LayoutToasts();
   void DismissToastById(int64_t id);
 
-  IThemeProvider* theme_ = nullptr;
-  views::View* container_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
+  raw_ptr<views::View> container_= nullptr;
   std::vector<std::unique_ptr<ActiveToast>> toasts_;
   int64_t next_toast_id_ = 1;
 

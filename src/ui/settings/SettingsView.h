@@ -2,6 +2,7 @@
 #pragma once
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 #include <string>
 #include <vector>
 
@@ -49,8 +50,8 @@ class SettingsView : public views::View {
   void OnMouseMoved(const ui::MouseEvent& event) override;
   void OnMouseExited(const ui::MouseEvent& event) override;
 
-  IThemeProvider* theme_;
-  ISettingsProvider* provider_;
+  raw_ptr<IThemeProvider> theme_;
+  raw_ptr<ISettingsProvider> provider_;
 
   std::vector<std::string> categories_;
   std::vector<const SettingDef*> current_settings_;

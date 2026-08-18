@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "ui/history/HistoryView.h"
+#include "url/gurl.h"
 
 #include "base/strings/utf_string_conversions.h"
 #include "ui/gfx/canvas.h"

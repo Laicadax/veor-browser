@@ -5,6 +5,7 @@
 #pragma once
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -53,9 +54,9 @@ class ExtensionHost {
  private:
   void RegisterAPI(std::unique_ptr<ExtensionAPI> api);
 
-  ITabManager* tab_manager_;
-  IBookmarkStore* bookmark_store_;
-  ISettingsProvider* settings_;
+  raw_ptr<ITabManager> tab_manager_;
+  raw_ptr<IBookmarkStore> bookmark_store_;
+  raw_ptr<ISettingsProvider> settings_;
 
   std::unordered_map<std::string, std::unique_ptr<ExtensionAPI>> apis_;
 };

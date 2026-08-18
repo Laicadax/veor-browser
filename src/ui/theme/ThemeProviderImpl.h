@@ -1,4 +1,4 @@
-// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+﻿// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -41,7 +41,7 @@ class ThemeProviderImpl : public IThemeProvider {
   std::string font_family_ = "Inter, system-ui, sans-serif";
 
   // Flat array of (role, color) pairs. Kept sorted for binary search.
-  static constexpr size_t kPaletteSize = 30;
+  static constexpr size_t kPaletteSize = 35;
   std::array<std::pair<ColorRole, SkColor>, kPaletteSize> palette_;
 };
 

@@ -3,8 +3,10 @@
 // found in the LICENSE file.
 
 #pragma once
+class Workspace;
 
 #include "workspace/IWorkspaceManager.h"
+#include "base/files/file_path.h"
 
 #include <unordered_map>
 

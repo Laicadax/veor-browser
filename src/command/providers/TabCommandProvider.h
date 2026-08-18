@@ -5,6 +5,7 @@
 #pragma once
 
 #include "command/ICommandProvider.h"
+#include "base/memory/raw_ptr.h"
 #include "tabs/ITabManager.h"
 
 namespace veor {
@@ -18,7 +19,7 @@ class TabCommandProvider : public ICommandProvider {
   std::string GetName() const override { return "Tabs"; }
 
  private:
-  ITabManager* tab_manager_;
+  raw_ptr<ITabManager> tab_manager_;
 };
 
 }  // namespace veor

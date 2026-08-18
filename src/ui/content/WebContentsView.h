@@ -5,6 +5,8 @@
 #pragma once
 
 #include <memory>
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 #include <string>
 
 #include "base/functional/callback.h"
@@ -85,7 +87,7 @@ class WebContentsView : public views::WebView,
 
  private:
   std::unique_ptr<content::WebContents> web_contents_;
-  IThemeProvider* theme_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
 
   base::RepeatingCallback<void(const std::string&)> on_title_changed_;
   base::RepeatingCallback<void(const GURL&)> on_url_changed_;

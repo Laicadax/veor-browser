@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "ui/bookmarks/BookmarksView.h"
+#include "url/gurl.h"
 
 #include "ui/gfx/canvas.h"
 #include "ui/painting/VeorPainter.h"

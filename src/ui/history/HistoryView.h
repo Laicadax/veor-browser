@@ -5,6 +5,8 @@
 #pragma once
 
 #include <memory>
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 #include <vector>
 
 #include "base/functional/callback.h"
@@ -49,8 +51,8 @@ class HistoryView : public views::View {
   void DrawEntries(gfx::Canvas* canvas);
   void LoadEntries();
 
-  IThemeProvider* theme_ = nullptr;
-  HistoryDatabase* history_db_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
+  raw_ptr<HistoryDatabase> history_db_= nullptr;
 
   std::vector<HistoryEntry> entries_;
   base::RepeatingCallback<void(const GURL&)> on_entry_selected_;

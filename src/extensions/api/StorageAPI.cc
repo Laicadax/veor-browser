@@ -26,7 +26,7 @@ Result<base::Value, std::string> StorageAPI::Get(const base::Value::List& args) 
     std::string key = std::string(kStoragePrefix) + args[0].GetString();
     auto val = settings_->GetValue(key);
     if (val.IsOk()) {
-      result.Set(args[0].GetString(), val.Value().ToBaseValue());
+      result.Set(args[0].GetString(), val.Unwrap().ToBaseValue());
     }
   } else if (args[0].is_list()) {
     for (const auto& item : args[0].GetList()) {
@@ -34,7 +34,7 @@ Result<base::Value, std::string> StorageAPI::Get(const base::Value::List& args) 
       std::string key = std::string(kStoragePrefix) + item.GetString();
       auto val = settings_->GetValue(key);
       if (val.IsOk()) {
-        result.Set(item.GetString(), val.Value().ToBaseValue());
+        result.Set(item.GetString(), val.Unwrap().ToBaseValue());
       }
     }
   } else if (args[0].is_dict()) {
@@ -42,7 +42,7 @@ Result<base::Value, std::string> StorageAPI::Get(const base::Value::List& args) 
       std::string full_key = std::string(kStoragePrefix) + key;
       auto val = settings_->GetValue(full_key);
       if (val.IsOk()) {
-        result.Set(key, val.Value().ToBaseValue());
+        result.Set(key, val.Unwrap().ToBaseValue());
       } else {
         result.Set(key, default_val.Clone());
       }

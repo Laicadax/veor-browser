@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "safe_browsing/SafeBrowsingService.h"
+#include "base/files/file_path.h"
 
 #include "base/json/json_reader.h"
 #include "base/json/json_writer.h"

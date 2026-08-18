@@ -1,111 +1,38 @@
-# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style license that can be
-# found in the LICENSE file.
-
-import("//build/config/compiler/compiler.gni")
-import("//mojo/public/tools/bindings/mojom.gni")
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Infrastructure Layer — Storage, Network, Crypto, Platform, IPC
-# ─────────────────────────────────────────────────────────────────────────────
-
-source_set("storage") {
-  sources = [
-    "storage/IStorageEngine.h",
-    "storage/StorageEngineImpl.h",
-    "storage/StorageEngineImpl.cc",
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved. 
+# Use of this source code is governed by a BSD-style license that can be 
+# found in the LICENSE file. 
+ 
+config("veor_infrastructure_public") { 
+  include_dirs = [ "//veor/src" ] 
+  defines = [ "VEOR_BROWSER" ] 
+} 
+ 
+source_set("infrastructure") { 
+  sources = [ 
+    "storage/IStorageEngine.h", 
+    "storage/StorageEngineImpl.h", 
+    "storage/StorageEngineImpl.cc", 
+    "crypto/ICryptoVault.h", 
+    "crypto/CryptoVaultImpl.h", 
+    "crypto/CryptoVaultImpl.cc", 
+  ] 
+  deps = [ 
+    "//base", 
+    "//sql", 
+    "//third_party/sqlite", 
+    "//veor/src/core:core", 
+  ] 
+  public_configs = [ ":veor_infrastructure_public" ] 
+  include_dirs = [
+    "//third_party/sqlite",
   ]
+} 
+ 
+group("storage") { 
+  deps = [ ":infrastructure" ] 
+} 
+ 
+group("crypto") { 
+  deps = [ ":infrastructure" ] 
+} 
 
-  deps = [
-    "//veor/src/core:core",
-    "//sql",
-  ]
-
-  public_configs = [ "//veor/src/core:veor_core_public" ]
-}
-
-source_set("network") {
-  sources = [
-    "network/INetworkService.h",
-    "network/NetworkServiceImpl.h",
-    "network/NetworkServiceImpl.cc",
-  ]
-
-  deps = [
-    "//veor/src/core:core",
-    "//services/network/public/cpp",
-    "//services/network/public/mojom",
-    "//net",
-  ]
-
-  public_configs = [ "//veor/src/core:veor_core_public" ]
-}
-
-source_set("crypto") {
-  sources = [
-    "crypto/ICryptoVault.h",
-    "crypto/CryptoVaultImpl.h",
-    "crypto/CryptoVaultImpl.cc",
-  ]
-
-  deps = [
-    "//veor/src/core:core",
-    "//third_party/boringssl",
-  ]
-
-  public_configs = [ "//veor/src/core:veor_core_public" ]
-}
-
-source_set("platform") {
-  sources = [
-    "platform/IPlatformService.h",
-    "platform/PlatformServiceImpl.h",
-    "platform/PlatformServiceImpl.cc",
-  ]
-
-  deps = [
-    "//veor/src/core:core",
-    "//base",
-  ]
-
-  public_configs = [ "//veor/src/core:veor_core_public" ]
-}
-
-mojom("ipc_mojom") {
-  sources = [
-    "ipc/veor_tab.mojom",
-    "ipc/veor_extension.mojom",
-    "ipc/veor_security.mojom",
-  ]
-}
-
-source_set("infrastructure") {
-  deps = [
-    ":storage",
-    ":network",
-    ":crypto",
-    ":platform",
-    ":ipc_mojom",
-  ]
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Unit Tests
-# ─────────────────────────────────────────────────────────────────────────────
-
-executable("infrastructure_unittests") {
-  testonly = true
-  sources = [
-    "storage/StorageEngineImpl_unittest.cc",
-    "crypto/CryptoVaultImpl_unittest.cc",
-    "platform/PlatformServiceImpl_unittest.cc",
-  ]
-
-  deps = [
-    ":infrastructure",
-    "//veor/src/core:test_support",
-    "//base",
-    "//testing/gmock",
-    "//testing/gtest",
-  ]
-}

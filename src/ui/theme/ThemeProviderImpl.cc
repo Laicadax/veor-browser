@@ -1,4 +1,4 @@
-// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+﻿// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -21,7 +21,7 @@ ThemeProviderImpl::ThemeProviderImpl() {
 }
 
 void ThemeProviderImpl::BuildDarkPalette() {
-  palette_ = {{
+  palette_ = std::to_array<std::pair<ColorRole, SkColor>>({
     {ColorRole::kVoid,                   RGB(0x02, 0x02, 0x02)},
     {ColorRole::kDepth,                  RGB(0x08, 0x08, 0x08)},
     {ColorRole::kSurface,                RGB(0x0F, 0x0F, 0x0F)},
@@ -57,7 +57,7 @@ void ThemeProviderImpl::BuildDarkPalette() {
     {ColorRole::kOverlayBackdrop,        RGB(0x02, 0x02, 0x02)},
     {ColorRole::kToastBorder,            RGB(0x1A, 0x1A, 0x1A)},
     {ColorRole::kToastProgressBar,       RGB(0x6B, 0x15, 0x20)},
-  }};
+  });
 
   std::sort(palette_.begin(), palette_.end(),
             [](const auto& a, const auto& b) {
@@ -89,3 +89,4 @@ void ThemeProviderImpl::SetTheme(ThemeId theme) {
 }
 
 }  // namespace veor
+

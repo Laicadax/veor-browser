@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "platform/IDefaultBrowserRegistrar.h"
+#include "base/files/file_path.h"
 
 #if BUILDFLAG(IS_WIN)
 #include "platform/windows/DefaultBrowserRegistrar.h"

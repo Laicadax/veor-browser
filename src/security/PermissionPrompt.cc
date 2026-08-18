@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "security/PermissionPrompt.h"
+#include "url/gurl.h"
 
 #include "ui/painting/VeorPainter.h"
 

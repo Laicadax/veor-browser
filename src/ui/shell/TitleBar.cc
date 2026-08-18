@@ -1,5 +1,6 @@
 // Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 #include "ui/shell/TitleBar.h"
+#include "workspace/Workspace.h"
 
 #include "ui/gfx/canvas.h"
 #include "ui/gfx/geometry/insets.h"

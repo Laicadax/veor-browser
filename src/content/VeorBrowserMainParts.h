@@ -3,8 +3,10 @@
 // found in the LICENSE file.
 
 #pragma once
+class Workspace;
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 
 #include "content/public/browser/browser_main_parts.h"
 
@@ -41,8 +43,8 @@ class VeorBrowserMainParts : public content::BrowserMainParts {
 
  private:
   std::unique_ptr<IThemeProvider> theme_;
-  IWorkspaceManager* workspace_manager_ = nullptr;
-  BrowserShell* shell_ = nullptr;
+  raw_ptr<IWorkspaceManager> workspace_manager_= nullptr;
+  raw_ptr<BrowserShell> shell_= nullptr;
   std::unique_ptr<views::Widget> widget_;
 };
 

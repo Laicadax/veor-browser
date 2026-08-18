@@ -1,4 +1,4 @@
-// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+﻿// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -8,8 +8,8 @@
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/sha.h>
+#include <openssl/err.h>
 
-#include "core/logging/VeorLogger.h"
 
 namespace veor {
 
@@ -34,14 +34,14 @@ Result<std::vector<uint8_t>, CryptoError> CryptoVaultImpl::GenerateRandom(
 }
 
 Result<std::vector<uint8_t>, CryptoError> CryptoVaultImpl::HashSha256(
-    base::StringPiece data) {
+    std::string_view data) {
   std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
   SHA256(reinterpret_cast<const uint8_t*>(data.data()), data.size(), hash.data());
   return Result<std::vector<uint8_t>, CryptoError>::Ok(std::move(hash));
 }
 
 Result<std::vector<uint8_t>, CryptoError> CryptoVaultImpl::Encrypt(
-    base::StringPiece plaintext,
+    std::string_view plaintext,
     const std::vector<uint8_t>& key) {
   if (key.size() != kAesKeySize) {
     return Result<std::vector<uint8_t>, CryptoError>::Err(
@@ -188,9 +188,7 @@ Result<void, CryptoError> CryptoVaultImpl::StoreSecret(
   std::lock_guard<std::mutex> lock(secrets_mutex_);
   secrets_[account] = std::move(ciphertext);
 
-  VEOR_LOGI(LogCategory::kInfrastructure,
-            "Secret stored for account: " + account);
-  return Result<void, CryptoError>::Ok();
+    return Result<void, CryptoError>::Ok();
 }
 
 Result<std::vector<uint8_t>, CryptoError> CryptoVaultImpl::RetrieveSecret(
@@ -225,9 +223,7 @@ Result<void, CryptoError> CryptoVaultImpl::DeleteSecret(
   std::lock_guard<std::mutex> lock(secrets_mutex_);
   secrets_.erase(account);
 
-  VEOR_LOGI(LogCategory::kInfrastructure,
-            "Secret deleted for account: " + account);
-  return Result<void, CryptoError>::Ok();
+    return Result<void, CryptoError>::Ok();
 }
 
 Result<std::vector<uint8_t>, CryptoError> CryptoVaultImpl::DeriveKey(
@@ -246,3 +242,5 @@ Result<std::vector<uint8_t>, CryptoError> CryptoVaultImpl::DeriveKey(
 }
 
 }  // namespace veor
+
+

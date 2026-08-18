@@ -5,6 +5,7 @@
 #pragma once
 
 #include "extensions/ExtensionAPI.h"
+#include "base/memory/raw_ptr.h"
 #include "tabs/ITabManager.h"
 
 namespace veor {
@@ -29,7 +30,7 @@ class TabsAPI : public ExtensionAPI {
 
   base::Value::Dict TabInfoToDict(const TabInfo& info);
 
-  ITabManager* tab_manager_;
+  raw_ptr<ITabManager> tab_manager_;
 };
 
 }  // namespace veor

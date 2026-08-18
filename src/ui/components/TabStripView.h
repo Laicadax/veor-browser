@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-
+#include "base/memory/raw_ptr.h"
 #include "ui/base/metadata/metadata_header_macros.h"
 #include "ui/views/view.h"
 
@@ -41,7 +41,7 @@ class TabStripView : public views::View {
       base::RepeatingCallback<void(size_t, gfx::Point)> cb);
 
  private:
-  IThemeProvider* theme_ = nullptr;
+  raw_ptr<IThemeProvider> theme_ = nullptr;
   std::vector<TabVisual> tabs_;
   int tab_height_ = 36;
   int tab_min_width_ = 80;

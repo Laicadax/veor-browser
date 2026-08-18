@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "settings/SettingsSchema.h"
+#include "workspace/Workspace.h"
 
 #include "core/logging/VeorLogger.h"
 

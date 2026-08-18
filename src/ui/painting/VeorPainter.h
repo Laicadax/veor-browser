@@ -1,4 +1,4 @@
-// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+﻿// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -6,6 +6,8 @@
 
 #include <string>
 
+#include "base/memory/raw_ptr.h"
+#include "base/memory/raw_ptr.h"
 #include "ui/theme/IThemeProvider.h"
 #include "third_party/skia/include/core/SkCanvas.h"
 #include "third_party/skia/include/core/SkRect.h"
@@ -23,7 +25,7 @@ class VeorPainter {
   void PaintText(SkCanvas* canvas, const std::string& text, float x, float y, ColorRole role);
 
  private:
-  IThemeProvider* theme_;
+  raw_ptr<IThemeProvider> theme_;
 };
 
 }  // namespace veor

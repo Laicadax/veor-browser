@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "devtools/DevToolsManager.h"
+#include "url/gurl.h"
 
 #include "base/strings/stringprintf.h"
 #include "content/public/browser/browser_context.h"

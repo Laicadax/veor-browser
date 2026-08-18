@@ -1,5 +1,9 @@
 // Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 #include "ui/shell/BrowserShell.h"
+#include "workspace/Workspace.h"
+#include "base/time/time.h"
+#include "base/files/file_path.h"
+#include "url/gurl.h"
 
 #include "base/command_line.h"
 #include "base/strings/escape.h"
@@ -217,7 +221,7 @@ void BrowserShell::InitOverlays() {
     history_store_ = std::make_unique<HistoryStoreImpl>(storage_engine_.get());
     bookmark_store_ = std::make_unique<BookmarkStoreImpl>(storage_engine_.get());
     VEOR_LOGI(LogCategory::kInfrastructure,
-              "Storage initialized at " + storage_path.value());
+              "Storage initialized at " + storage_base::WideToUTF8(path.value()));
   } else {
     VEOR_LOGW(LogCategory::kInfrastructure,
               "Failed to open storage, using stubs: " +

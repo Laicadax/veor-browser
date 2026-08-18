@@ -1,5 +1,6 @@
 // Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 #include "content/ContentViewImpl.h"
+#include "url/gurl.h"
 
 #include "base/strings/utf_string_conversions.h"
 #include "base/task/single_thread_task_runner.h"

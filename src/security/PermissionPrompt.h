@@ -5,6 +5,8 @@
 #pragma once
 
 #include <functional>
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 
 #include "security/ISecurityManager.h"
 #include "ui/theme/IThemeProvider.h"
@@ -35,7 +37,7 @@ class PermissionPrompt : public views::View {
 
   GURL origin_;
   PermissionType type_;
-  IThemeProvider* theme_;
+  raw_ptr<IThemeProvider> theme_;
   DecisionCallback callback_;
 };
 

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 #include <vector>
 
 #include "command/ICommandProvider.h"
@@ -36,7 +37,7 @@ class CommandPalette : public views::View {
   void Layout() override;
   void RebuildResults();
 
-  IThemeProvider* theme_;
+  raw_ptr<IThemeProvider> theme_;
   std::vector<std::unique_ptr<ICommandProvider>> providers_;
   std::vector<CommandItem> current_results_;
   std::string current_query_;

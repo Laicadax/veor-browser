@@ -5,6 +5,7 @@
 #pragma once
 
 #include <string>
+#include "base/memory/raw_ptr.h"
 
 #include "ui/views/view.h"
 
@@ -39,7 +40,7 @@ class BlockedPageView : public views::View {
   void DrawThreatInfo(gfx::Canvas* canvas, const gfx::Rect& bounds);
   void DrawActionButton(gfx::Canvas* canvas, const gfx::Rect& bounds);
 
-  IThemeProvider* theme_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
   std::string blocked_url_;
   int threat_type_ = 0;
 

@@ -5,6 +5,8 @@
 #pragma once
 
 #include <memory>
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 #include <unordered_map>
 
 #include "base/memory/weak_ptr.h"
@@ -69,7 +71,7 @@ class DevToolsManager : public content::DevToolsAgentHostClient,
   void CloseDevTools(content::WebContents* web_contents);
   GURL GetDevToolsFrontendURL(content::DevToolsAgentHost* agent_host);
 
-  content::BrowserContext* browser_context_ = nullptr;
+  raw_ptr<content::BrowserContext> browser_context_= nullptr;
   std::unordered_map<content::WebContents*, Session> sessions_;
 
   base::WeakPtrFactory<DevToolsManager> weak_factory_{this};

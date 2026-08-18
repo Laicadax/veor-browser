@@ -1,5 +1,6 @@
 // Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 #include "autofill/AutofillManager.h"
+#include "url/gurl.h"
 
 #include "base/json/json_reader.h"
 #include "base/json/json_writer.h"

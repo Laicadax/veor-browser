@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "bookmarks/BookmarkStoreImpl.h"
+#include "url/gurl.h"
 
 #include "core/logging/VeorLogger.h"
 #include "infrastructure/storage/IStorageEngine.h"
@@ -64,7 +65,7 @@ Result<BookmarkNodeId, std::string> BookmarkStoreImpl::AddBookmark(
   auto r = storage_->Execute(
       "INSERT INTO bookmarks (parent_id, type, title, url, sort_index, date_added)"
       " VALUES (?, 1, ?, ?, 0, strftime('%s','now'))",
-      {std::to_string(parent_folder.value()), title, url.spec()});
+      {std::to_string(parent_folder.Unwrap()), title, url.spec()});
   if (r.IsErr())
     return Result<BookmarkNodeId, std::string>::Err(r.UnwrapErr().ToString());
 
@@ -83,7 +84,7 @@ Result<BookmarkNodeId, std::string> BookmarkStoreImpl::AddFolder(
   auto r = storage_->Execute(
       "INSERT INTO bookmarks (parent_id, type, title, sort_index, date_added)"
       " VALUES (?, 0, ?, 0, strftime('%s','now'))",
-      {std::to_string(parent_folder.value()), title});
+      {std::to_string(parent_folder.Unwrap()), title});
   if (r.IsErr())
     return Result<BookmarkNodeId, std::string>::Err(r.UnwrapErr().ToString());
 
@@ -102,7 +103,7 @@ Result<void, std::string> BookmarkStoreImpl::UpdateNode(
   EnsureSchema();
   auto r = storage_->Execute(
       "UPDATE bookmarks SET title = ?, url = ? WHERE id = ?",
-      {new_title, new_url.spec(), std::to_string(id.value())});
+      {new_title, new_url.spec(), std::to_string(id.Unwrap())});
   if (r.IsErr())
     return Result<void, std::string>::Err(r.UnwrapErr().ToString());
   return Result<void, std::string>::Ok();
@@ -112,9 +113,9 @@ Result<void, std::string> BookmarkStoreImpl::DeleteNode(BookmarkNodeId id) {
   EnsureSchema();
   // Recursive delete: first delete children
   storage_->Execute("DELETE FROM bookmarks WHERE parent_id = ?",
-                    {std::to_string(id.value())});
+                    {std::to_string(id.Unwrap())});
   auto r = storage_->Execute("DELETE FROM bookmarks WHERE id = ?",
-                             {std::to_string(id.value())});
+                             {std::to_string(id.Unwrap())});
   if (r.IsErr())
     return Result<void, std::string>::Err(r.UnwrapErr().ToString());
   return Result<void, std::string>::Ok();
@@ -127,8 +128,8 @@ Result<void, std::string> BookmarkStoreImpl::MoveNode(
   EnsureSchema();
   auto r = storage_->Execute(
       "UPDATE bookmarks SET parent_id = ?, sort_index = ? WHERE id = ?",
-      {std::to_string(new_parent.value()), std::to_string(new_index),
-       std::to_string(id.value())});
+      {std::to_string(new_parent.Unwrap()), std::to_string(new_index),
+       std::to_string(id.Unwrap())});
   if (r.IsErr())
     return Result<void, std::string>::Err(r.UnwrapErr().ToString());
   return Result<void, std::string>::Ok();
@@ -144,7 +145,7 @@ Result<BookmarkNode, std::string> BookmarkStoreImpl::GetNode(
         stmt_result.UnwrapErr().ToString());
 
   auto stmt = std::move(stmt_result).Unwrap();
-  stmt->BindString(1, std::to_string(id.value()));
+  stmt->BindString(1, std::to_string(id.Unwrap()));
 
   auto step = stmt->Step();
   if (step.IsErr())
@@ -168,7 +169,7 @@ Result<std::vector<BookmarkNode>, std::string> BookmarkStoreImpl::GetChildren(
         stmt_result.UnwrapErr().ToString());
 
   auto stmt = std::move(stmt_result).Unwrap();
-  stmt->BindString(1, std::to_string(parent.value()));
+  stmt->BindString(1, std::to_string(parent.Unwrap()));
 
   while (true) {
     auto step = stmt->Step();

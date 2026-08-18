@@ -5,6 +5,7 @@
 #pragma once
 
 #include "extensions/ExtensionAPI.h"
+#include "base/memory/raw_ptr.h"
 #include "bookmarks/IBookmarkStore.h"
 
 namespace veor {
@@ -29,7 +30,7 @@ class BookmarksAPI : public ExtensionAPI {
   base::Value::Dict NodeToDict(const BookmarkNode& node);
   void AppendChildren(base::Value::List& list, BookmarkNodeId parent);
 
-  IBookmarkStore* store_;
+  raw_ptr<IBookmarkStore> store_;
 };
 
 }  // namespace veor

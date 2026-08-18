@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "security/SecurityManager.h"
+#include "url/gurl.h"
 
 namespace veor {
 

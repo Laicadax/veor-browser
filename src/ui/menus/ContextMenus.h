@@ -5,6 +5,7 @@
 #pragma once
 
 #include <functional>
+#include "base/memory/raw_ptr.h"
 #include <string>
 #include <vector>
 
@@ -42,7 +43,7 @@ class ContextMenu : public views::View {
   void OnPaint(gfx::Canvas* canvas) override;
   void Layout() override;
 
-  IThemeProvider* theme_;
+  raw_ptr<IThemeProvider> theme_;
   std::vector<MenuItem> items_;
   int item_height_ = 26;
   int menu_width_ = 200;

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "extensions/ExtensionHost.h"
+#include "tabs/ITabManager.h"
 
 #include "core/logging/VeorLogger.h"
 #include "extensions/api/BookmarksAPI.h"

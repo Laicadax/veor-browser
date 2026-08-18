@@ -5,6 +5,7 @@
 #pragma once
 
 #include <string>
+#include "base/memory/raw_ptr.h"
 #include <vector>
 
 #include "url/gurl.h"
@@ -40,7 +41,7 @@ class UrlChecker {
  private:
   std::string ComputeHashPrefix(const std::string& input);
 
-  ThreatDatabase* threat_db_;
+  raw_ptr<ThreatDatabase> threat_db_;
 };
 
 }  // namespace veor

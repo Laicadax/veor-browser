@@ -5,6 +5,8 @@
 #pragma once
 
 #include <memory>
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 #include <vector>
 
 #include "base/functional/callback.h"
@@ -49,8 +51,8 @@ class BookmarksView : public views::View {
   void DrawEntries(gfx::Canvas* canvas);
   void LoadEntries();
 
-  IThemeProvider* theme_ = nullptr;
-  IBookmarkStore* bookmark_store_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
+  raw_ptr<IBookmarkStore> bookmark_store_= nullptr;
 
   std::vector<BookmarkNode> entries_;
   base::RepeatingCallback<void(const GURL&)> on_bookmark_selected_;

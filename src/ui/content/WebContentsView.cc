@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "ui/content/WebContentsView.h"
+#include "url/gurl.h"
 
 #include "content/public/browser/navigation_controller.h"
 #include "content/public/browser/navigation_handle.h"

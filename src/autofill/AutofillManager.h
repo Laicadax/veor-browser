@@ -2,6 +2,8 @@
 #pragma once
 
 #include <memory>
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 #include <string>
 
 #include "base/functional/callback.h"
@@ -58,9 +60,9 @@ class AutofillManager : public content::WebContentsObserver {
   void OnFormDetected(const std::string& result_json);
   void OnFormSubmitted(const std::string& result_json);
 
-  content::WebContents* web_contents_;
-  IAutofillStore* store_;
-  IThemeProvider* theme_;
+  raw_ptr<content::WebContents> web_contents_;
+  raw_ptr<IAutofillStore> store_;
+  raw_ptr<IThemeProvider> theme_;
 
   base::RepeatingCallback<void(const std::string& origin,
                                const std::string& username,

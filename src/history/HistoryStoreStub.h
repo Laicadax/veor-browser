@@ -1,6 +1,8 @@
 #pragma once
 
 #include "history/IHistoryStore.h"
+#include "base/time/time.h"
+#include "url/gurl.h"
 
 namespace veor {
 

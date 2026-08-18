@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "infrastructure/platform/PlatformServiceImpl.h"
+#include "base/files/file_path.h"
 
 #include "base/base_paths.h"
 #include "base/path_service.h"

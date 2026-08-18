@@ -220,7 +220,7 @@ void TabStripView::OnPaint(gfx::Canvas* canvas) {
 }
 
 gfx::Size TabStripView::CalculatePreferredSize() const {
-  return gfx::Size(views::View::kUsePreferredSize, tab_height_);
+  return gfx::Size(0, tab_height_);
 }
 
 }  // namespace veor

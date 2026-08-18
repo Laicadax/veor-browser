@@ -5,6 +5,8 @@
 #pragma once
 
 #include <memory>
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 
 #include "ui/views/controls/webview/webview.h"
 #include "ui/views/view.h"
@@ -57,18 +59,18 @@ class PdfContentView : public views::View {
   void InitToolbar();
   void UpdateToolbar();
 
-  IThemeProvider* theme_;
+  raw_ptr<IThemeProvider> theme_;
   std::unique_ptr<views::WebView> web_view_;
 
   // Toolbar
-  views::View* toolbar_ = nullptr;
-  views::Label* page_label_ = nullptr;
-  views::LabelButton* prev_btn_ = nullptr;
-  views::LabelButton* next_btn_ = nullptr;
-  views::LabelButton* zoom_out_btn_ = nullptr;
-  views::LabelButton* zoom_in_btn_ = nullptr;
-  views::LabelButton* download_btn_ = nullptr;
-  views::LabelButton* print_btn_ = nullptr;
+  raw_ptr<views::View> toolbar_= nullptr;
+  raw_ptr<views::Label> page_label_= nullptr;
+  raw_ptr<views::LabelButton> prev_btn_= nullptr;
+  raw_ptr<views::LabelButton> next_btn_= nullptr;
+  raw_ptr<views::LabelButton> zoom_out_btn_= nullptr;
+  raw_ptr<views::LabelButton> zoom_in_btn_= nullptr;
+  raw_ptr<views::LabelButton> download_btn_= nullptr;
+  raw_ptr<views::LabelButton> print_btn_= nullptr;
 
   GURL current_url_;
   int current_page_ = 1;

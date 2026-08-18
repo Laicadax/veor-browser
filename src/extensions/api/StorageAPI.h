@@ -5,6 +5,7 @@
 #pragma once
 
 #include "extensions/ExtensionAPI.h"
+#include "base/memory/raw_ptr.h"
 #include "settings/ISettingsProvider.h"
 
 namespace veor {
@@ -26,7 +27,7 @@ class StorageAPI : public ExtensionAPI {
   Result<base::Value, std::string> Remove(const base::Value::List& args);
   Result<base::Value, std::string> Clear(const base::Value::List& args);
 
-  ISettingsProvider* settings_;
+  raw_ptr<ISettingsProvider> settings_;
   static constexpr char kStoragePrefix[] = "ext.storage.";
 };
 

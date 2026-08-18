@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "testing/gtest/include/gtest/gtest.h"
+#include "base/files/file_path.h"
 #include "infrastructure/storage/StorageEngineImpl.h"
 #include "core/test/VeorTestBase.h"
 #include "base/files/scoped_temp_dir.h"

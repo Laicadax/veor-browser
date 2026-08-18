@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "command/providers/TabCommandProvider.h"
+#include "tabs/ITabManager.h"
 
 #include <algorithm>
 

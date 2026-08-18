@@ -2,6 +2,8 @@
 #pragma once
 
 #include "content/IContentView.h"
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 #include "base/memory/weak_ptr.h"
 #include "ui/base/metadata/metadata_header_macros.h"
 #include "ui/views/view.h"
@@ -40,7 +42,7 @@ class ContentViewImpl : public views::View, public IContentView {
  private:
   void OnLoadCompleted(const GURL& url);
 
-  IThemeProvider* theme_ = nullptr;
+  raw_ptr<IThemeProvider> theme_= nullptr;
   GURL current_url_;
   std::string title_;
   bool loading_ = false;

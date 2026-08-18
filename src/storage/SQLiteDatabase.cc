@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "storage/SQLiteDatabase.h"
+#include "base/files/file_path.h"
 
 #include "base/logging.h"
 #include "core/logging/VeorLogger.h"

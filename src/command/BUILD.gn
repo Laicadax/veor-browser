@@ -27,6 +27,7 @@ source_set("command_providers") {
 
   deps = [
     ":command",
+        "//base",
     "//veor/src:tabs",
     "//veor/src:history",
     "//veor/src/platform:platform",
@@ -34,3 +35,4 @@ source_set("command_providers") {
 
   public_configs = [ "//veor/src/core:veor_core_public" ]
 }
+

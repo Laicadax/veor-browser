@@ -2,6 +2,8 @@
 #pragma once
 
 #include <memory>
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 #include <unordered_map>
 
 #include "ui/base/metadata/metadata_header_macros.h"
@@ -135,15 +137,15 @@ class BrowserShell : public views::WidgetDelegateView {
   void ToggleFullscreen();
 
   std::unique_ptr<IThemeProvider> theme_;
-  IWorkspaceManager* workspace_manager_ = nullptr;
-  ITabManager* tab_manager_ = nullptr;
-  content::BrowserContext* browser_context_ = nullptr;
-  SafeBrowsingService* safe_browsing_ = nullptr;
+  raw_ptr<IWorkspaceManager> workspace_manager_= nullptr;
+  raw_ptr<ITabManager> tab_manager_= nullptr;
+  raw_ptr<content::BrowserContext> browser_context_= nullptr;
+  raw_ptr<SafeBrowsingService> safe_browsing_= nullptr;
 
   // Main layout
-  TitleBar* title_bar_ = nullptr;
-  TabStripView* tab_strip_ = nullptr;
-  views::View* content_area_ = nullptr;
+  raw_ptr<TitleBar> title_bar_= nullptr;
+  raw_ptr<TabStripView> tab_strip_= nullptr;
+  raw_ptr<views::View> content_area_= nullptr;
 
   // Content views per tab (index → view)
   std::vector<std::unique_ptr<WebContentsView>> web_contents_views_;
@@ -158,16 +160,16 @@ class BrowserShell : public views::WidgetDelegateView {
   std::vector<ClosedTab> closed_tabs_;
 
   // Overlay layer
-  views::View* overlay_layer_ = nullptr;
-  CommandPaletteView* command_palette_ = nullptr;
-  DownloadsView* downloads_view_ = nullptr;
-  FindBarView* find_bar_ = nullptr;
-  SettingsView* settings_view_ = nullptr;
-  NewTabPageView* new_tab_page_ = nullptr;
-  HistoryView* history_view_ = nullptr;
-  BookmarksView* bookmarks_view_ = nullptr;
-  BlockedPageView* blocked_page_ = nullptr;
-  views::View* tab_context_menu_ = nullptr;
+  raw_ptr<views::View> overlay_layer_= nullptr;
+  raw_ptr<CommandPaletteView> command_palette_= nullptr;
+  raw_ptr<DownloadsView> downloads_view_= nullptr;
+  raw_ptr<FindBarView> find_bar_= nullptr;
+  raw_ptr<SettingsView> settings_view_= nullptr;
+  raw_ptr<NewTabPageView> new_tab_page_= nullptr;
+  raw_ptr<HistoryView> history_view_= nullptr;
+  raw_ptr<BookmarksView> bookmarks_view_= nullptr;
+  raw_ptr<BlockedPageView> blocked_page_= nullptr;
+  raw_ptr<views::View> tab_context_menu_= nullptr;
 
   // Services
   std::unique_ptr<ToastServiceImpl> toast_service_;

@@ -1,4 +1,4 @@
-// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+﻿// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -11,9 +11,9 @@
 
 namespace veor {
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // CryptoVaultImpl
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // BoringSSL-based cryptography with in-memory secret vault.
 // OS keychain integration planned for production.
 
@@ -24,9 +24,9 @@ class CryptoVaultImpl : public ICryptoVault {
 
   // ICryptoVault
   Result<std::vector<uint8_t>, CryptoError> GenerateRandom(size_t length) override;
-  Result<std::vector<uint8_t>, CryptoError> HashSha256(base::StringPiece data) override;
+  Result<std::vector<uint8_t>, CryptoError> HashSha256(std::string_view data) override;
   Result<std::vector<uint8_t>, CryptoError> Encrypt(
-      base::StringPiece plaintext,
+      std::string_view plaintext,
       const std::vector<uint8_t>& key) override;
   Result<std::string, CryptoError> Decrypt(
       const std::vector<uint8_t>& ciphertext,

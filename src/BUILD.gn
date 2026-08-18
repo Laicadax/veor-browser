@@ -1,136 +1,96 @@
-# Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
-# Use of this source code is governed by a BSD-style license that can be
-# found in the LICENSE file.
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Application Layer — Settings, History, Bookmarks, Workspace, Tabs
-# ─────────────────────────────────────────────────────────────────────────────
-
-source_set("history") {
-  sources = [
-    "history/IHistoryStore.h",
-    "history/HistoryStoreImpl.h",
-    "history/HistoryStoreImpl.cc",
-    "history/HistoryStoreStub.h",
-  ]
-
-  deps = [
-    "//veor/src/core:core",
-    "//veor/src/infrastructure:storage",
-  ]
-
-  public_configs = [ "//veor/src/core:veor_core_public" ]
-}
-
-source_set("bookmarks") {
-  sources = [
-    "bookmarks/IBookmarkStore.h",
-    "bookmarks/BookmarkStoreImpl.h",
-    "bookmarks/BookmarkStoreImpl.cc",
-    "bookmarks/BookmarkStoreStub.h",
-  ]
-
-  deps = [
-    "//veor/src/core:core",
-    "//veor/src/infrastructure:storage",
-  ]
-
-  public_configs = [ "//veor/src/core:veor_core_public" ]
-}
-
-source_set("tabs") {
-  sources = [
-    "tabs/ITabManager.h",
+# Copyright (c) 2026 VEOR Browser Authors. All rights reserved. 
+# Use of this source code is governed by a BSD-style license that can be 
+# found in the LICENSE file. 
+ 
+source_set("history") { 
+  sources = [ 
+    "history/IHistoryStore.h", 
+    "history/HistoryStoreImpl.h", 
+    "history/HistoryStoreImpl.cc", 
+    "history/VisitEntry.h", 
+  ] 
+  deps = [ 
+    "//base", 
+    "//veor/src/core:core", 
+    "//veor/src/infrastructure:storage", 
+  ] 
+  public_configs = [ "//veor/src/core:veor_core_public" ] 
+} 
+ 
+source_set("bookmarks") { 
+  sources = [ 
+    "bookmarks/IBookmarkStore.h", 
+    "bookmarks/BookmarkStoreImpl.h", 
+    "bookmarks/BookmarkStoreImpl.cc", 
+    "bookmarks/BookmarkNode.h", 
+  ] 
+  deps = [ 
+    "//base", 
+    "//veor/src/core:core", 
+    "//veor/src/infrastructure:storage", 
+  ] 
+  public_configs = [ "//veor/src/core:veor_core_public" ] 
+} 
+ 
+source_set("tabs") { 
+  sources = [ 
     "tabs/TabManager.h",
     "tabs/TabManager.cc",
-  ]
+  ] 
+  deps = [ 
+    "//base", 
+    "//veor/src/core:core", 
+    "//veor/src/infrastructure:storage", 
+  ] 
+  public_configs = [ "//veor/src/core:veor_core_public" ] 
+} 
+ 
+source_set("workspace") { 
+  sources = [ 
+    "workspace/IWorkspace.h", 
+    "workspace/IWorkspaceManager.h", 
+    "workspace/Workspace.h", 
+    "workspace/Workspace.cc", 
+    "workspace/WorkspaceManager.h", 
+    "workspace/WorkspaceManager.cc", 
+    "workspace/WorkspaceSession.h", 
+    "workspace/SessionPersistence.h", 
+    "workspace/SessionPersistence.cc", 
+  ] 
+  deps = [ 
+    "//base", 
+    "//veor/src/settings", 
+    ":history", 
+    ":bookmarks", 
+    ":tabs", 
+    "//veor/src/core:core", 
+    "//veor/src/infrastructure:storage", 
+  ] 
+  public_configs = [ "//veor/src/core:veor_core_public" ] 
+} 
+ 
+source_set("application") { 
+  deps = [ 
+    "//veor/src/settings", 
+    ":history", 
+    ":bookmarks", 
+    ":workspace", 
+    ":tabs", 
+    "//veor/src/command", 
+    "//veor/src/command:command_providers", 
+    "//veor/src/downloads", 
+    "//veor/src/autofill", 
+    "//veor/src/platform:platform", 
+    "//veor/src/security:security", 
+    "//veor/src/extensions:extensions", 
+    "//veor/src/storage:storage_engine", 
+    "//veor/src/sync:sync", 
+  ] 
+} 
 
-  deps = [
-    "//veor/src/core:core",
-    "//url",
-  ]
 
-  public_configs = [ "//veor/src/core:veor_core_public" ]
+group("veor_browser") {
+  deps = [ ":application" ]
 }
 
-source_set("workspace") {
-  sources = [
-    "workspace/IWorkspace.h",
-    "workspace/IWorkspaceManager.h",
-    "workspace/Workspace.h",
-    "workspace/Workspace.cc",
-    "workspace/WorkspaceManager.h",
-    "workspace/WorkspaceManager.cc",
-    "workspace/WorkspaceSession.h",
-    "workspace/SessionPersistence.h",
-    "workspace/SessionPersistence.cc",
-  ]
 
-  deps = [
-    "//veor/src/settings",
-    ":history",
-    ":bookmarks",
-    ":tabs",
-    "//veor/src/core:core",
-    "//veor/src/infrastructure:storage",
-  ]
-
-  public_configs = [ "//veor/src/core:veor_core_public" ]
-}
-
-source_set("content") {
-  sources = [
-    "content/IContentView.h",
-    "content/ContentViewImpl.h",
-    "content/ContentViewImpl.cc",
-  ]
-
-  deps = [
-    "//base",
-    "//skia",
-    "//ui/views",
-    "//url",
-    "//veor/src/ui:theme",
-  ]
-
-  public_configs = [ "//veor/src/core:veor_core_public" ]
-}
-
-source_set("application") {
-  deps = [
-    "//veor/src/settings",
-    ":history",
-    ":bookmarks",
-    ":workspace",
-    ":tabs",
-    "//veor/src/command",
-    "//veor/src/command:command_providers",
-    "//veor/src/downloads",
-    "//veor/src/autofill",
-    "//veor/src/platform:platform",
-    "//veor/src/security:security",
-    "//veor/src/extensions:extensions",
-    "//veor/src/storage:storage_engine",
-    "//veor/src/sync:sync",
-  ]
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# VEOR Browser Executable
-# ─────────────────────────────────────────────────────────────────────────────
-
-executable("veor_browser") {
-  sources = [
-    "browser_main.cc",
-  ]
-
-  deps = [
-    ":application",
-    "//veor/src/content:content_core",
-    "//veor/src/content:content_renderer",
-    "//veor/src/core:core",
-    "//veor/src/ui:ui",
-    "//base",
-    "//ui/base",
-  ]
-}

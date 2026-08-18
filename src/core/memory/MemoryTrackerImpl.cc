@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "core/memory/MemoryTrackerImpl.h"
+#include "workspace/Workspace.h"
 
 #include <algorithm>
 

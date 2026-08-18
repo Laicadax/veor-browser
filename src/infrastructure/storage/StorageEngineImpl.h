@@ -4,6 +4,11 @@
 
 #pragma once
 
+#include "base/memory/raw_ptr.h"
+#include "base/files/file_path.h"
+
+#include "base/memory/raw_ptr.h"
+
 #include "infrastructure/storage/IStorageEngine.h"
 
 struct sqlite3;
@@ -11,9 +16,9 @@ struct sqlite3_stmt;
 
 namespace veor {
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // StorageEngineImpl
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // SQLite-backed implementation of IStorageEngine.
 //
 // Features:
@@ -42,7 +47,7 @@ class StorageEngineImpl : public IStorageEngine {
   Result<std::unique_ptr<ITransaction>, StorageError> BeginTransaction() override;
 
  private:
-  sqlite3* db_ = nullptr;
+  raw_ptr<sqlite3> db_ = nullptr;
   bool is_open_ = false;
 };
 

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "extensions/api/BookmarksAPI.h"
+#include "url/gurl.h"
 
 namespace veor {
 
@@ -32,8 +33,8 @@ Result<base::Value, std::string> BookmarksAPI::Create(const base::Value::List& a
     const std::string* title = dict.FindString("title");
     auto result = store_->AddBookmark(GURL(*url), title ? *title : "", parent);
     if (result.IsOk()) {
-      auto node = store_->GetNode(result.Value());
-      if (node.IsOk()) return Ok(base::Value(NodeToDict(node.Value())));
+      auto node = store_->GetNode(result.Unwrap());
+      if (node.IsOk()) return Ok(base::Value(NodeToDict(node.Unwrap())));
     }
     return Err("Failed to create bookmark");
   }
@@ -41,8 +42,8 @@ Result<base::Value, std::string> BookmarksAPI::Create(const base::Value::List& a
   const std::string* title = dict.FindString("title");
   auto result = store_->AddFolder(title ? *title : "New Folder", parent);
   if (result.IsOk()) {
-    auto node = store_->GetNode(result.Value());
-    if (node.IsOk()) return Ok(base::Value(NodeToDict(node.Value())));
+    auto node = store_->GetNode(result.Unwrap());
+    if (node.IsOk()) return Ok(base::Value(NodeToDict(node.Unwrap())));
   }
   return Err("Failed to create folder");
 }
@@ -64,7 +65,7 @@ Result<base::Value, std::string> BookmarksAPI::Search(const base::Value::List& a
   auto result = store_->Search(query);
   if (result.IsErr()) return Err(result.UnwrapErr());
   base::Value::List list;
-  for (const auto& node : result.Value()) {
+  for (const auto& node : result.Unwrap()) {
     list.Append(NodeToDict(node));
   }
   return Ok(base::Value(std::move(list)));
@@ -95,7 +96,7 @@ base::Value::Dict BookmarksAPI::NodeToDict(const BookmarkNode& node) {
 void BookmarksAPI::AppendChildren(base::Value::List& list, BookmarkNodeId parent) {
   auto result = store_->GetChildren(parent);
   if (result.IsErr()) return;
-  for (const auto& node : result.Value()) {
+  for (const auto& node : result.Unwrap()) {
     base::Value::Dict dict = NodeToDict(node);
     if (node.is_folder) {
       base::Value::List children;

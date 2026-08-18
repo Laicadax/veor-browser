@@ -2,6 +2,7 @@
 #pragma once
 
 #include <memory>
+#include "base/memory/raw_ptr.h"
 #include <string>
 #include <vector>
 
@@ -47,8 +48,8 @@ class DownloadsView : public views::View {
                         int width);
   bool OnMousePressed(const ui::MouseEvent& event) override;
 
-  IThemeProvider* theme_;
-  IDownloadController* controller_;
+  raw_ptr<IThemeProvider> theme_;
+  raw_ptr<IDownloadController> controller_;
 
   std::vector<DownloadItem> items_;
   int hovered_item_ = -1;

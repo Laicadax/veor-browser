@@ -303,15 +303,15 @@ class Result<void, E> {
   }
 
   E& UnwrapErr() & {
-    return error_.value();
+    return error_.Unwrap();
   }
 
   const E& UnwrapErr() const& {
-    return error_.value();
+    return error_.Unwrap();
   }
 
   E&& UnwrapErr() && {
-    return std::move(error_.value());
+    return std::move(error_.Unwrap());
   }
 
   const E* ErrOrNull() const noexcept {
@@ -464,7 +464,13 @@ struct StorageError {
   int sqlite_code = 0;
   std::string message;
   std::string sql;
+
+
+  std::string ToString() const {
+    return "SQLite code=" + std::to_string(sqlite_code) + ", message=" + message + ", sql=" + sql;
+  }
 };
+
 
 struct NetworkError {
   int net_error_code = 0;

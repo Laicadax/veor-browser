@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "workspace/Workspace.h"
+#include "base/files/file_path.h"
 
 #include "base/time/time.h"
 #include "bookmarks/BookmarkStoreImpl.h"
@@ -28,7 +29,7 @@ Workspace::Workspace(WorkspaceId id, const std::string& name)
 void Workspace::SetName(const std::string& name) {
   name_ = name;
   VEOR_LOGI(LogCategory::kWorkspace,
-            "Workspace " + std::to_string(id_.value()) + " renamed to " + name);
+            "Workspace " + std::to_string(id_.Unwrap()) + " renamed to " + name);
 }
 
 void Workspace::Activate() {
@@ -78,7 +79,7 @@ Result<void, std::string> Workspace::SaveState() {
   }
 
   VEOR_LOGD(LogCategory::kWorkspace,
-            "Workspace " + std::to_string(id_.value()) + " state serialized: " +
+            "Workspace " + std::to_string(id_.Unwrap()) + " state serialized: " +
                 std::to_string(tabs.size()) + " tabs");
   return Result<void, std::string>::Ok();
 }
@@ -113,7 +114,7 @@ Result<void, std::string> Workspace::LoadState() {
   }
 
   VEOR_LOGD(LogCategory::kWorkspace,
-            "Workspace " + std::to_string(id_.value()) + " state restored: " +
+            "Workspace " + std::to_string(id_.Unwrap()) + " state restored: " +
                 std::to_string(session_->GetTabs().size()) + " tabs");
   return Result<void, std::string>::Ok();
 }
@@ -131,7 +132,7 @@ void Workspace::InitializeStorage(const base::FilePath& db_path) {
     history_store_ = std::make_unique<HistoryStoreImpl>(storage_engine_.get());
     bookmark_store_ = std::make_unique<BookmarkStoreImpl>(storage_engine_.get());
     VEOR_LOGI(LogCategory::kWorkspace,
-              "Storage initialized for workspace " + std::to_string(id_.value()));
+              "Storage initialized for workspace " + std::to_string(id_.Unwrap()));
   } else {
     VEOR_LOGW(LogCategory::kWorkspace,
               "Failed to open workspace storage, using stubs: " +

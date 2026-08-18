@@ -5,6 +5,7 @@
 #pragma once
 
 #include "command/ICommandProvider.h"
+#include "base/memory/raw_ptr.h"
 #include "history/IHistoryStore.h"
 
 namespace veor {
@@ -18,7 +19,7 @@ class HistoryCommandProvider : public ICommandProvider {
   std::string GetName() const override { return "History"; }
 
  private:
-  IHistoryStore* history_;
+  raw_ptr<IHistoryStore> history_;
 };
 
 }  // namespace veor

@@ -1,4 +1,4 @@
-// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
+﻿// Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -41,7 +41,7 @@ void VeorPainter::PaintFocusRing(SkCanvas* canvas, const SkRect& bounds, float s
   paint.setStyle(SkPaint::kStroke_Style);
   paint.setStrokeWidth(stroke);
   paint.setAntiAlias(true);
-  SkRect outset = bounds.makeOutset(stroke * 0.5f);
+  SkRect outset = bounds.makeOutset(stroke * 0.5f, stroke * 0.5f);
   canvas->drawRect(outset, paint);
 }
 

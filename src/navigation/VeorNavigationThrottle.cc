@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "navigation/VeorNavigationThrottle.h"
+#include "url/gurl.h"
 
 #include "content/public/browser/navigation_handle.h"
 #include "core/logging/VeorLogger.h"

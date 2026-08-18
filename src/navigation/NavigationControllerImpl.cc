@@ -1,5 +1,6 @@
 // Copyright (c) 2026 VEOR Browser Authors. All rights reserved.
 #include "navigation/NavigationControllerImpl.h"
+#include "url/gurl.h"
 
 #include "base/logging.h"
 #include "base/sequence_checker.h"

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bookmarks/IBookmarkStore.h"
+#include "url/gurl.h"
 #include "core/base/VeorId.h"
 
 namespace veor {

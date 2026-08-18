@@ -5,6 +5,8 @@
 #pragma once
 
 #include "content/public/browser/navigation_throttle.h"
+#include "url/gurl.h"
+#include "base/memory/raw_ptr.h"
 #include "net/ssl/ssl_info.h"
 
 namespace veor {
@@ -42,7 +44,7 @@ class VeorNavigationThrottle : public content::NavigationThrottle {
   ThrottleCheckResult CheckUrl(const GURL& url);
   ThrottleCheckResult CheckSSL(const net::SSLInfo& ssl_info, const GURL& url);
 
-  SafeBrowsingService* safe_browsing_ = nullptr;
+  raw_ptr<SafeBrowsingService> safe_browsing_= nullptr;
 };
 
 }  // namespace veor

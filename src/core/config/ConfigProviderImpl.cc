@@ -247,7 +247,7 @@ Result<void, std::string> ConfigProviderImpl::DoLoad() {
                                           result.error().message);
   }
 
-  const base::Value::Dict* root = result.value().GetIfDict();
+  const base::Value::Dict* root = result.Unwrap().GetIfDict();
   if (!root) {
     return Result<void, std::string>::Err("Config root is not an object");
   }
