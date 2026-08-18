@@ -4,6 +4,7 @@
 
 #include "content/VeorContentBrowserClient.h"
 
+#include "base/base_paths.h"
 #include "base/files/file_path.h"
 #include "base/path_service.h"
 #include "content/public/browser/browser_context.h"
@@ -47,6 +48,8 @@ VeorContentBrowserClient::GetGuestViewManager(
 
 base::FilePath VeorContentBrowserClient::GetDefaultDownloadDirectory() {
   base::FilePath path;
+  if (base::PathService::Get(base::DIR_USER_DOWNLOADS, &path))
+    return path;
   base::PathService::Get(base::DIR_HOME, &path);
   return path.AppendASCII("Downloads");
 }

@@ -10,7 +10,6 @@
 #include <wrl/client.h>
 
 #include "base/strings/string_util.h"
-#include "base/strings/utf_string_conversions.h"
 #include "base/win/registry.h"
 #include "core/logging/VeorLogger.h"
 
@@ -86,7 +85,7 @@ bool DefaultBrowserRegistrar::Register() const {
 }
 
 bool DefaultBrowserRegistrar::RegisterProgid() const {
-  std::wstring exe_path = base::UTF8ToWide(executable_path_.value());
+  std::wstring exe_path = executable_path_.value();
 
   // HKEY_CURRENT_USER\Software\Classes\VEORBrowser
   base::win::RegKey progid_key(HKEY_CURRENT_USER,
@@ -124,7 +123,7 @@ bool DefaultBrowserRegistrar::RegisterProgid() const {
 }
 
 bool DefaultBrowserRegistrar::RegisterCapabilities() const {
-  std::wstring exe_path = base::UTF8ToWide(executable_path_.value());
+  std::wstring exe_path = executable_path_.value();
 
   // HKEY_CURRENT_USER\Software\Classes\VEORBrowser\Capabilities
   base::win::RegKey caps_key(HKEY_CURRENT_USER,
@@ -168,7 +167,7 @@ bool DefaultBrowserRegistrar::RegisterCapabilities() const {
 }
 
 bool DefaultBrowserRegistrar::RegisterStartMenuInternet() const {
-  std::wstring exe_path = base::UTF8ToWide(executable_path_.value());
+  std::wstring exe_path = executable_path_.value();
 
   // HKEY_CURRENT_USER\Software\Clients\StartMenuInternet\VEOR
   base::win::RegKey client_key(HKEY_CURRENT_USER,

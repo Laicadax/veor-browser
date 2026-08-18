@@ -72,6 +72,11 @@ export VEOR_SAFE_BROWSING_API_KEY="your-key"
 ```
 ```
 
+### Windows
+
+See [BUILD_ON_WINDOWS.md](BUILD_ON_WINDOWS.md) for the self-hosted Windows build
+prerequisites, Chromium setup, GN arguments, packaging, and troubleshooting.
+
 ## Features
 
 - **Safe Browsing**: Google API v4 + local SQLite hash database, thread-safe LRU cache

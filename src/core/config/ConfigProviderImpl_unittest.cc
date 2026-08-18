@@ -17,7 +17,7 @@ class ConfigProviderTest : public VeorTestBase {
     factory_ = std::make_unique<TaskRunnerFactory>();
     provider_ = std::make_unique<ConfigProviderImpl>(factory_->GetIoRunner());
     ASSERT_TRUE(temp_dir_.CreateUniqueTempDir());
-    path_ = temp_dir_.GetPath().AppendASCII("config.json").value();
+    path_ = temp_dir_.GetPath().AppendASCII("config.json").AsUTF8Unsafe();
     provider_->SetFilePath(path_);
   }
 
