@@ -38,7 +38,7 @@ Result<void, std::string> SessionPersistence::Open(const base::FilePath& path) {
   }
 
   VEOR_LOGI(LogCategory::kWorkspace,
-            "SessionPersistence opened: " + path.value());
+            "SessionPersistence opened: " + path.AsUTF8Unsafe());
   return Result<void, std::string>::Ok();
 }
 

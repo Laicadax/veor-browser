@@ -19,6 +19,7 @@ source_set("storage") {
   deps = [
     "//veor/src/core:core",
     "//sql",
+    "//third_party/sqlite",
   ]
 
   public_configs = [ "//veor/src/core:veor_core_public" ]

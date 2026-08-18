@@ -252,7 +252,7 @@ Result<void, std::string> WorkspaceManager::InitializePersistence(
   auto result = persistence_->Open(path);
   if (result.IsOk()) {
     VEOR_LOGI(LogCategory::kWorkspace,
-              "Persistence initialized at " + path.value());
+              "Persistence initialized at " + path.AsUTF8Unsafe());
   } else {
     VEOR_LOGW(LogCategory::kWorkspace,
               "Failed to initialize persistence: " + result.UnwrapErr());

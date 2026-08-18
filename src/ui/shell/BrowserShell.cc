@@ -2,6 +2,7 @@
 #include "ui/shell/BrowserShell.h"
 
 #include "base/command_line.h"
+#include "base/files/file_util.h"
 #include "base/strings/escape.h"
 #include "content/public/browser/browser_context.h"
 #include "ui/base/accelerators/accelerator.h"
@@ -210,14 +211,17 @@ void BrowserShell::InitOverlays() {
     storage_path = browser_context_->GetPath().Append(
         FILE_PATH_LITERAL("veor.db"));
   } else {
-    storage_path = base::FilePath(FILE_PATH_LITERAL("/tmp/veor_default.db"));
+    base::FilePath temp_dir;
+    if (base::GetTempDir(&temp_dir)) {
+      storage_path = temp_dir.AppendASCII("veor_default.db");
+    }
   }
   auto open_result = storage_engine_->Open(storage_path);
   if (open_result.IsOk()) {
     history_store_ = std::make_unique<HistoryStoreImpl>(storage_engine_.get());
     bookmark_store_ = std::make_unique<BookmarkStoreImpl>(storage_engine_.get());
     VEOR_LOGI(LogCategory::kInfrastructure,
-              "Storage initialized at " + storage_path.value());
+              "Storage initialized at " + storage_path.AsUTF8Unsafe());
   } else {
     VEOR_LOGW(LogCategory::kInfrastructure,
               "Failed to open storage, using stubs: " +

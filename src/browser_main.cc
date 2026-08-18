@@ -4,11 +4,34 @@
 
 #include "base/at_exit.h"
 #include "base/command_line.h"
+#include "build/build_config.h"
 #include "content/public/app/content_main.h"
 #include "content/public/app/content_main_delegate.h"
 
 #include "content/VeorMainDelegate.h"
 
+#if BUILDFLAG(IS_WIN)
+#include <windows.h>
+
+#include "content/public/app/sandbox_helper_win.h"
+#include "sandbox/win/src/sandbox_types.h"
+#endif
+
+#if BUILDFLAG(IS_WIN)
+int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, wchar_t*, int) {
+  base::AtExitManager at_exit;
+  sandbox::SandboxInterfaceInfo sandbox_info = {nullptr};
+  content::InitializeSandboxInfo(&sandbox_info);
+  base::CommandLine::Init(0, nullptr);
+
+  auto delegate = std::make_unique<veor::VeorMainDelegate>();
+  content::ContentMainParams params(delegate.get());
+  params.instance = instance;
+  params.sandbox_info = &sandbox_info;
+
+  return content::ContentMain(std::move(params));
+}
+#else
 int main(int argc, char** argv) {
   base::AtExitManager at_exit;
   base::CommandLine::Init(argc, argv);
@@ -20,3 +43,4 @@ int main(int argc, char** argv) {
 
   return content::ContentMain(std::move(params));
 }
+#endif

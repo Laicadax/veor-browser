@@ -10,6 +10,7 @@
 #include "base/json/json_reader.h"
 #include "base/path_service.h"
 #include "base/values.h"
+#include "build/build_config.h"
 #include "content/public/browser/browser_thread.h"
 
 #include "content/VeorResourceContext.h"
@@ -22,12 +23,12 @@ namespace {
 
 base::FilePath GetVeorProfilePath() {
   base::FilePath path;
-#if defined(OS_WIN)
+#if BUILDFLAG(IS_WIN)
   base::PathService::Get(base::DIR_LOCAL_APP_DATA, &path);
   path = path.AppendASCII("VEOR");
-#elif defined(OS_MAC)
+#elif BUILDFLAG(IS_MAC)
   base::PathService::Get(base::DIR_APP_DATA, &path);
-  path = path.AppendASCII("Application Support").AppendASCII("VEOR");
+  path = path.AppendASCII("VEOR");
 #else
   base::PathService::Get(base::DIR_HOME, &path);
   path = path.AppendASCII(".config").AppendASCII("veor");

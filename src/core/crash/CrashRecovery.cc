@@ -6,6 +6,8 @@
 
 #include <fstream>
 
+#include "base/files/file_util.h"
+
 namespace veor {
 
 CrashRecovery::CrashRecovery() = default;
@@ -95,11 +97,17 @@ Result<void, std::string> CrashRecovery::RestoreSession(
 }
 
 std::string CrashRecovery::GetSnapshotPath() const {
-  return "/tmp/veor_session_snapshot.bin";
+  base::FilePath temp_dir;
+  if (!base::GetTempDir(&temp_dir))
+    return std::string();
+  return temp_dir.AppendASCII("veor_session_snapshot.bin").AsUTF8Unsafe();
 }
 
 std::string CrashRecovery::GetCleanExitPath() const {
-  return "/tmp/veor_clean_exit.flag";
+  base::FilePath temp_dir;
+  if (!base::GetTempDir(&temp_dir))
+    return std::string();
+  return temp_dir.AppendASCII("veor_clean_exit.flag").AsUTF8Unsafe();
 }
 
 }  // namespace veor

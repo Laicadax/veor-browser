@@ -1,0 +1,35 @@
+# GitHub-hosted windows-latest runners have about 14 GB free disk space,
+# while a Chromium build needs about 250 GB. A self-hosted runner is mandatory.
+
+name: Build VEOR (Windows Self-Hosted)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: [self-hosted, windows, x64]
+    timeout-minutes: 1440
+
+    steps:
+      - name: Checkout VEOR
+        uses: actions/checkout@v4
+        with:
+          path: veor-checkout
+
+      # Keep this checkout on the runner between workflow runs. The script
+      # reuses it and skips fetch when chromium\src already exists.
+      - name: Build Windows executable
+        shell: pwsh
+        run: |
+          & "${{ github.workspace }}\veor-checkout\build_windows.ps1" `
+            -ChromiumRoot "${{ runner.workspace }}\chromium"
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: veor-browser-windows-x64
+          path: |
+            ${{ runner.workspace }}/chromium/src/veor-browser-windows-x64.zip
+            ${{ runner.workspace }}/chromium/src/veor-dist/veor_browser.exe
+          retention-days: 30

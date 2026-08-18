@@ -170,7 +170,8 @@ Result<void, StorageError> StorageEngineImpl::Open(const base::FilePath& path) {
         MakeError(db_, SQLITE_MISUSE, "Database already open"));
   }
 
-  int rc = sqlite3_open(path.value().c_str(), &db_);
+  const std::string path_utf8 = path.AsUTF8Unsafe();
+  int rc = sqlite3_open(path_utf8.c_str(), &db_);
   if (rc != SQLITE_OK) {
     auto err = MakeError(db_, rc);
     sqlite3_close(db_);
@@ -193,7 +194,7 @@ Result<void, StorageError> StorageEngineImpl::Open(const base::FilePath& path) {
 
   is_open_ = true;
   VEOR_LOGI(LogCategory::kInfrastructure,
-            "StorageEngine opened: " + path.value());
+            "StorageEngine opened: " + path.AsUTF8Unsafe());
   return Result<void, StorageError>::Ok();
 }
 

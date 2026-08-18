@@ -5,6 +5,7 @@
 #include "infrastructure/platform/PlatformServiceImpl.h"
 
 #include "base/base_paths.h"
+#include "base/files/file_util.h"
 #include "base/path_service.h"
 #include "base/system/sys_info.h"
 #include "core/logging/VeorLogger.h"
@@ -39,7 +40,10 @@ base::FilePath PlatformServiceImpl::GetTempDirectory() const {
   if (base::PathService::Get(base::DIR_TEMP, &path)) {
     return path.AppendASCII("veor");
   }
-  return base::FilePath(FILE_PATH_LITERAL("/tmp/veor"));
+  if (base::GetTempDir(&path)) {
+    return path.AppendASCII("veor");
+  }
+  return base::FilePath();
 }
 
 void PlatformServiceImpl::ShowNotification(const std::string& title,
