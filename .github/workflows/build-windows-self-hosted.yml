@@ -22,7 +22,7 @@ jobs:
       - name: Build Windows executable
         shell: pwsh
         run: |
-          & "${{ runner.workspace }}\veor-checkout\build_windows.ps1" `
+          & "${{ github.workspace }}\veor-checkout\build_windows.ps1" `
             -ChromiumRoot "${{ runner.workspace }}\chromium"
 
       - name: Upload Windows artifacts

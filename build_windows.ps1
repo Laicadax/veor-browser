@@ -41,7 +41,7 @@ function Write-WarningMessage {
 
 function Fail {
   param([string]$Message)
-  Write-Error "[VEOR BUILD] $Message"
+  Write-Host "[VEOR BUILD] $Message" -ForegroundColor Red
   exit 1
 }
 
